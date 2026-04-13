@@ -76,7 +76,7 @@ Add a `kafka` service to your `docker-compose.yml`.
 EDDIE can produce messages larger than Kafka's 1 MB default, so the buffer and request size limits are increased accordingly.
 
 ```yaml [docker-compose.yml]
-name: 21-days
+name: eddie-tutorial
 services:
   db:
     image: postgres:17-bookworm

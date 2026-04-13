@@ -28,7 +28,7 @@ mkdir my-energy-app && cd my-energy-app
 The standard way of running the EDDIE framework is as a Docker container.
 
 ```yaml [docker-compose.yml]
-name: 21-days
+name: eddie-tutorial
 services:
   db:
     image: postgres:17-bookworm
