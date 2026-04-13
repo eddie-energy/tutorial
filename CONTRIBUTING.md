@@ -1,8 +1,7 @@
 ## Development
 
-```shell
-git worktree add --orphan day-01
-```
+Each day has its own branch holding the expected state of the application at the end of that day.
+This allows for easy navigation and comparison between days using `git switch` and `git diff`.
 
 ```shell
 git switch day-01
@@ -11,6 +10,22 @@ git switch day-01
 ```shell
 git diff day-01 day-02
 ```
+
+Git worktrees can help you maintain multiple branches as directories.
+This allows you to easily update the guide or code of a specific day without switching branches.
+
+```shell
+git worktree add day-01 day-01
+```
+
+## Change requests
+
+If you want to suggest changes to the guide, please open a pull request against the `main` branch.
+Make sure to follow the conventions outlined in this document and provide a clear description of your changes.
+There is no need to open separate pull requests for changes to the code in the checkpoint branches.
+These branches are updated manually by a maintainer to reduce noise and ease access for contributors.
+
+You may also open an issue if you have questions or suggestions that are not directly related to a specific change.
 
 ## Content
 
