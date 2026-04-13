@@ -223,7 +223,7 @@ http://localhost:9090/outbound-connectors/rest/agnostic/connection-status-messag
 You can simply open the API endpoint in your browser, or use an HTTP client like `curl`.
 
 > [!NOTE]
-> Browsers will usually request the data as XML, while HTTP clients will often use JSON. This guide will use JSON for brevity.
+> Browsers will usually request the data as XML, while HTTP clients will often use JSON. This tutorial will use JSON for brevity.
 
 The result should include a message like this,
 indicating that the permission has transitioned into the **CREATED** state.
@@ -299,4 +299,4 @@ This is how you will match incoming data to a specific user on Day 6.
 
 On day 2 you will configure some real region connectors (Denmark, France, Austria) and observe how the same button and data needs work across countries.
 
-- [Download the result of the day](https://github.com/eddie-energy/guide/archive/refs/heads/day-01.zip)
+- [Download the result of the day](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-01.zip)

@@ -18,8 +18,8 @@ Days are plain Markdown first and should render well both on GitHub and in ViteP
 
 Each day should include links to download the starting code at the beginning and the result at the end.
 
-- [Download starting code](https://github.com/eddie-energy/guide/archive/refs/heads/day-01.zip)
-- [Download result](https://github.com/eddie-energy/guide/archive/refs/heads/day-02.zip)
+- [Download starting code](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-01.zip)
+- [Download result](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-02.zip)
 
 ```markdown
 **Goal**:

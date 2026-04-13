@@ -5,7 +5,7 @@
 - [x] Check state of example app
 - [x] Establish timeline and tasks
 - [ ] Define scope of the example app
-- [ ] Start work in the example app repo while making notes for the guide
+- [ ] Start work in the example app repo while making notes for the tutorial
 - [ ] Which tasks can we delegate
 - [ ] Set up repo and define structure
     - [ ] README
@@ -24,10 +24,10 @@
 
 - highly stable and a common combination with and modular in a way similar to Spring
 
-**React** while common is very _noisy_ for a framework-agnostic guide.
+**React** while common is very _noisy_ for a framework-agnostic tutorial.
 **Svelte** is not popular enough and harder to read without knowledge of the framework.
 
-### Guide and example app in same repository?
+### Example app in same repository?
 
 - **Shared** makes it easier to keep them in sync
     - can reduce work by removing cross-repo coordination
@@ -119,19 +119,20 @@ Example app can be used as a starter for eligible parties to build their own sol
 
 ### Branches ✅
 
-🪾 `main` -> Guide Markdown (and example app if same repo)
+🪾 `main` -> Markdown (and example app if same repo)
 🪾 `day-01` ... `day-21` -> Expected state at the end of each day
 
 ➕ Avoids directory duplication
 ➕ Easy compare and switch with `git diff` and `git switch`
 ➖ Structure and maintenance require additional explanation
+➖ Pull requests cannot update both guide and checkpoints at the same time
 
 [Git worktrees](https://git-scm.com/docs/git-worktree) can help managing multiple days as directories during maintenance.
 IntelliJ has support for Git worktrees since version `2026.1`.
 
 ### Directories
 
-📁 `guide` -> Guide Markdown
+📁 `tutorial` -> Markdown
 📁 `day-01` ... `day-21` -> Expected state at the end of each day
 
 ➕ Discovery and navigation are trivial `cd day-12`
@@ -153,7 +154,7 @@ Minimal maintenance and highly stable once published but
 
 ## Repository Structure 📂
 
-Naming ideas: `eddie-energy/21-days`, `eddie-energy/example-app`, `eddie-energy/guide`
+Naming ideas: `eddie-energy/21-days`, `eddie-energy/example-app`, `eddie-energy/tutorial`
 
 - 📄 `README.md` -> Explains structure, introduces guide / app, how to report issues
 - 📄 `CONTRIBUTING.md` -> Explains how to make changes and manage checkpoints

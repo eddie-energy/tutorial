@@ -8,7 +8,7 @@
 
 **Estimated time**: 2 hours
 
-[Download starting code](https://github.com/eddie-energy/guide/archive/refs/heads/day-02.zip)
+[Download starting code](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-02.zip)
 
 ## What outbound connectors do
 
@@ -275,7 +275,7 @@ You can run them all at once during development to compare, then settle on the r
 | Latency             | Polling interval | Near real-time     | Near real-time       |
 | Setup complexity    | None             | Kafka broker       | AMQP broker          |
 
-For the rest of this guide, you will build a Spring backend that consumes from the REST connector first (Days 5–8), and revisit Kafka when you explore event-driven patterns on Day 17.
+For the rest of this tutorial, you will build a Spring backend that consumes from the REST connector first (Days 5–8), and revisit Kafka when you explore event-driven patterns on Day 17.
 
 ## Checkpoint
 
@@ -290,4 +290,4 @@ For the rest of this guide, you will build a Spring backend that consumes from t
 On Day 4 you will explore the permission lifecycle in depth — how permissions transition between states, how to terminate them via API, and how to track connections using
 `connectionId` and `permissionId`.
 
-[Download the result of the day](https://github.com/eddie-energy/guide/archive/refs/heads/day-03.zip)
+[Download the result of the day](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-03.zip)

@@ -12,7 +12,7 @@ Region connector candidates:
 
 Additionally, we cannot provide real metering points or accounts to test with actual data.
 Instead, we want to inform readers towards being able to set up a connector on their own for the region they operate in.
-We show how to set up our most popular region connectors and then disable them to not conflict with the rest of the guide.
+We show how to set up our most popular region connectors and then disable them to not conflict with the rest of this tutorial.
 -->
 
 # Day 2 — Real Region Connectors
@@ -25,10 +25,10 @@ We show how to set up our most popular region connectors and then disable them t
 
 **Estimated time**: 1 hour
 
-[Download starting code](https://github.com/eddie-energy/guide/archive/refs/heads/day-01.zip)
+[Download starting code](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-01.zip)
 
 > [!NOTE]
-> If you operate in a supported region and want to connect real meter data, follow the full setup in the [Operation Manual](https://architecture.eddie.energy/framework/) for your region. The simulation connector from Day 1 will remain active for the rest of this guide.
+> If you operate in a supported region and want to connect real meter data, follow the full setup in the [Operation Manual](https://architecture.eddie.energy/framework/) for your region. The simulation connector from Day 1 will remain active for the rest of this tutorial.
 
 ## Why region connectors differ
 
