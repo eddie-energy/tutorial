@@ -143,7 +143,8 @@ Activities:
     - Accounting point master data
     - Validated historical data
 - Validate user-specific flows
-- Customise EDDIE Connect button and popup
+- Customise EDDIE Connect button and popup:
+  https://architecture.eddie.energy/framework/1-running/eddie-button/eddie-button.html#customize-colors-and-content
 
 Outcome: Multi-user onboarding journey
 
@@ -207,7 +208,8 @@ Activities:
 
 Outcome: Reduced integration friction
 
-Commented [RM5]: https://architecture.eddie.energy/framework/2-integrating/messages/cim/clientlibraries.html
+See: https://architecture.eddie.energy/framework/2-integrating/messages/cim/clientlibraries.html
+
 
 ### Day 11 — Admin Console Mastery (effort: 4h+3h)
 
@@ -223,6 +225,8 @@ Activities:
 
 Outcome: Operator proficiency
 
+See: https://architecture.eddie.energy/framework/1-running/admin-console.html
+
 ### Day 12 — Time-Series Visualization (effort: 4h based on ExampleApp usage)
 
 Goal: User value realization
@@ -236,13 +240,13 @@ Activities:
 
 Outcome: Interactive visualization layer
 
-### Day 13 — Carbon & Mix Enrichment (effort: 8h?)
+### Day 13 — Carbon & Mix Enrichment (effort: 16h?)
 
 Goal: Demonstrate ecosystem value creation
 
 Activities:
 
-- Integrate entropy transparency platform service (contact Georg)
+- Integrate ENTSO-E transparency platform service: https://transparency.entsoe.eu
 - Retrieve carbon intensity & electricity mix
 - Overlay enriched data in charts
 - Demonstrate cross-domain analytics
