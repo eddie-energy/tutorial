@@ -13,19 +13,34 @@
 
 ## Questions ❓
 
-### Vue or Angular?
+### What web framework?
 
-**Vue** is
+- **Vue** is our framework of choice allowing us to write faster and easy to read without knowledge of the framework.
+- **Angular** is highly stable and a common combination with and modular in a way similar to Spring.
+- **React** while common is very _noisy_ for a framework-agnostic tutorial.
+- **Svelte** is not popular enough and harder to read without knowledge of the framework.
 
-- our framework of choice allowing us to improve the example app faster
-- easy to read without knowledge of the framework
+Driving factors evaluated against Days 5–21:
 
-**Angular** is
+| Factor                                   | ✅ Angular                           | Vue                              |
+|------------------------------------------|-------------------------------------|----------------------------------|
+| Popularity (energy enterprise, Europe)   | 🏆 Dominant Java enterprise stack   | Startup/tooling                  |
+| Readability (for Java/Spring developers) | 🏆 Mirrors Spring DI and decorators | Different mental model           |
+| Real-time streams (Days 14–15)           | RxJS async pipe                     | Ref or reactive                  |
+| Enterprise starter value (Day 20)        | 🏆 Expected Spring + Angular stack  | Less common in energy enterprise |
+| Internal dev velocity                    | Slower                              | 🏆 Our framework of choice       |
+| Existing example app reuse               | Rewrite needed                      | 🏆 Existing Vue base             |
 
-- highly stable and a common combination with and modular in a way similar to Spring
+The target reader is a **Java/Spring developer** at an enterprise energy company or implementation partner.
+Angular's component and service pattern is the closest JavaScript analog to Spring's `@Component`,
+making it easy to understand for this specific audience despite being more verbose than Vue.
 
-**React** while common is very _noisy_ for a framework-agnostic tutorial.
-**Svelte** is not popular enough and harder to read without knowledge of the framework.
+Angular 17+ standalone components remove most of the module boilerplate.
+Day authoring can be: new `.component.ts` + new `.service.ts` + one route entry.
+Existing files stay unchanged.
+
+Vue's main advantages are conciseness and our internal development speed.
+Development is a secondary concern when the primary goal is a usable enterprise tutorial and starter.
 
 ### Example app in same repository?
 
