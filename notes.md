@@ -112,6 +112,8 @@ Readers of the 21 days guide build the example app (minus some polish).
 Guide acts as deep documentation and tutorial towards the example app.
 Example app can be used as a starter for eligible parties to build their own solution.
 
+Planning on the example app is documented in [`app.md`](app.md).
+
 ### Stack
 
 **Java Spring** as a highly common and stable backend implementation that also matches our own implementation language.
