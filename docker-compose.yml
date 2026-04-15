@@ -1,0 +1,25 @@
+name: eddie-tutorial
+services:
+  db:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_USER: eddie
+      POSTGRES_PASSWORD: eddie
+      POSTGRES_DB: eddie
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eddie"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  eddie:
+    image: ghcr.io/eddie-energy/eddie:latest
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    volumes:
+      - ./data-needs.json:/opt/core/config/data-needs.json
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
