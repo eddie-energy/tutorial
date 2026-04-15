@@ -77,7 +77,7 @@ openssl rand -base64 32
 EDDIE_JWT_HMAC_SECRET=EZawglo19bseUT94HDE7sQDy2sqbX3IhkU+Mveruj5w=
 ```
 
-Next we will enable some additional features while disabling one feature that we will only use later.
+Next we will enable some additional features for testing.
 
 ```dotenv
 # We will use the Simulation region connector to generate test data
@@ -86,8 +86,6 @@ REGION_CONNECTOR_SIM_ENABLED=true
 OUTBOUND_CONNECTOR_REST_ENABLED=true
 # The demo button helps us test our region connectors
 EDDIE_DEMO_BUTTON_ENABLED=true
-# Disable Kafka connector which is otherwise enabled by default
-OUTBOUND_CONNECTOR_KAFKA_ENABLED=false
 ```
 
 Finally, we will pass the path to our config file that will soon hold our data needs.
@@ -111,9 +109,6 @@ REGION_CONNECTOR_SIM_ENABLED=true
 OUTBOUND_CONNECTOR_REST_ENABLED=true
 # The demo button helps us test our region connectors
 EDDIE_DEMO_BUTTON_ENABLED=true
-
-# Disable Kafka connector which is otherwise enabled by default
-OUTBOUND_CONNECTOR_KAFKA_ENABLED=false
 
 EDDIE_DATA_NEEDS_CONFIG_FILE=./config/data-needs.json
 ```
@@ -299,4 +294,4 @@ This is how you will match incoming data to a specific user on Day 6.
 
 On day 2 you will configure some real region connectors (Denmark, France, Austria) and observe how the same button and data needs work across countries.
 
-- [Download the result of the day](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-01.zip)
+[Download the result of the day](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-01.zip)
