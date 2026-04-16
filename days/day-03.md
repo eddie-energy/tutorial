@@ -76,20 +76,6 @@ Add a `kafka` service to your `docker-compose.yml`.
 EDDIE can produce messages larger than Kafka's 1 MB default, so the buffer and request size limits are increased accordingly.
 
 ```yaml [docker-compose.yml]
-name: eddie-tutorial
-services:
-  db:
-    image: postgres:17-bookworm
-    environment:
-      POSTGRES_USER: eddie
-      POSTGRES_PASSWORD: eddie
-      POSTGRES_DB: eddie
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U eddie" ]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-
   kafka:
     image: docker.io/apache/kafka:4.1.0
     ports:
@@ -107,18 +93,6 @@ services:
       - KAFKA_MESSAGE_MAX_BYTES=104857600
       - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-
-  eddie:
-    image: ghcr.io/eddie-energy/eddie:latest
-    ports:
-      - "8080:8080"
-      - "9090:9090"
-    volumes:
-      - ./data-needs.json:/opt/core/config/data-needs.json
-    env_file: .env
-    depends_on:
-      db:
-        condition: service_healthy
 ```
 
 ### Configure the Kafka outbound connector
@@ -184,7 +158,7 @@ EDDIE supports AMQP 1.0, and RabbitMQ 4 implements it natively.
 ### Add RabbitMQ to your Compose file
 
 Add a `rabbitmq` service.
-The `management` variant of the image includes a web UI for inspecting queues — useful while you explore.
+The `management` variant of the image includes a web UI for inspecting queues which we will use for verification.
 
 ```yaml [docker-compose.yml]
   rabbitmq:
@@ -230,7 +204,7 @@ docker compose logs -f eddie
 
 Open the RabbitMQ management console at http://localhost:15672 and log in with `guest` / `guest`.
 Navigate to **Queues and Streams**.
-EDDIE creates all queues on startup, and messages will appear there after you trigger a simulation flow.
+EDDIE creates all queues on startup and messages will appear there after you trigger a simulation flow.
 
 <!-- TODO: screenshot of RabbitMQ management UI showing queues -->
 
