@@ -1,0 +1,18 @@
+{
+  "realm": "tutorial-realm",
+  "enabled": true,
+  "registrationAllowed": true,
+  "clients": [
+    {
+      "clientId": "tutorial-client",
+      "enabled": true,
+      "redirectUris": [
+        "http://localhost:4200/*"
+      ],
+      "webOrigins": [
+        "http://localhost:4200"
+      ],
+      "publicClient": true
+    }
+  ]
+}

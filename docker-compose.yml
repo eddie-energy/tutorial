@@ -47,3 +47,14 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.6.0
+    ports:
+      - "8888:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    volumes:
+      - ./keycloak.json:/opt/keycloak/data/import/realm.json:ro
+    command: start-dev --import-realm
