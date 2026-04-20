@@ -43,9 +43,13 @@ TODO
 
 ## France — Enedis
 
-The French connector uses OAuth 2.0. When a customer clicks Connect, EDDIE redirects them to the Enedis authorization page. After they approve, EDDIE receives and manages an access token. Your application never handles credentials directly.
+The French connector uses OAuth 2.0. 
+When a customer clicks Connect, EDDIE redirects them to the Enedis authorization page. 
+After they approve, EDDIE receives and manages an access token. 
+Your application never handles credentials directly.
 
-The customer-facing flow is seamless. The EP-side setup requires registering with Enedis, including a manual approval step that can take several days.
+The customer-facing flow is seamless. 
+The EP-side setup requires registering with Enedis, including a manual approval step that can take several days.
 
 ### Registration
 
