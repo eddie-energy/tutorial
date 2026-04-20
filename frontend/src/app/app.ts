@@ -12,8 +12,13 @@ export class App implements OnInit {
   title = signal('stranger');
 
   ngOnInit() {
-    keycloak.loadUserProfile().then((profile) => {
-      this.title.set(profile.firstName!);
-    });
+    fetch('http://localhost:8082/api/me', {
+      headers: {
+        Authorization: `Bearer ${keycloak.token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => this.title.set(data.name))
+      .catch((err) => console.error(err));
   }
 }
