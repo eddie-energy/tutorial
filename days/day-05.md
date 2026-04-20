@@ -86,7 +86,7 @@ server.port=8082
 spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:8888/realms/tutorial-realm
 ```
 
-Add a minimal security configuration.
+Next we add a minimal security configuration to enable JWT authentication with Keycloak.
 
 ```java [backend/src/main/java/energy/eddie/tutorial/backend/SecurityConfig.java]
 package energy.eddie.tutorial.backend;
@@ -115,8 +115,8 @@ package energy.eddie.tutorial.backend;
 class UserController {
 
     @GetMapping("/api/me")
-    java.util.Map<String, String> me(java.security.Principal principal) {
-        return java.util.Map.of("name", principal.getName());
+    Map<String, String> me(@AuthenticationPrincipal Jwt jwt) {
+        return Map.of("name", jwt.getClaimAsString("name"));
     }
 }
 ```
@@ -130,7 +130,7 @@ cd backend
 
 ## Step 3 — Create the Angular frontend
 
-We will use the Angular CLI to generate the frontend project.
+Next we use the Angular CLI to generate the frontend project.
 We will use the default configuration and skip tests to keep things simple.
 
 ```shell
@@ -188,16 +188,22 @@ export class App implements OnInit {
     title = signal('stranger');
 
     ngOnInit() {
-        keycloak.loadUserProfile().then((profile) => {
-            this.title.set(profile.firstName!);
-        });
+        fetch('http://localhost:8082/api/me', {
+            headers: {
+                Authorization: `Bearer ${keycloak.token}`,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => this.title.set(data.name))
+            .catch((err) => console.error(err));
     }
 }
 ```
 
 When visiting http://localhost:4200 you should now be redirected to the Keycloak login page.
 There you can register a new user and log in.
-You should be directed back to the Angular app and see your provided first name.
+You should be directed back to the Angular app and see your provided name.
+Watch out for console errors in case something is not working.
 
 ## Step 5 — Add the EDDIE Connect button
 
