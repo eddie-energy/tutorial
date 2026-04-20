@@ -10,6 +10,17 @@ This document tracks the planned application scope for the example app resulting
 - Database: PostgreSQL
 - Messaging: Kafka
 
+## Services
+
+- EDDIE: 8080, 9090
+- AIIDA: 8081
+- Backend: 8082
+- Keycloak: 8888
+- PostgreSQL: 5432
+- AMQP: 5672, 15672
+- Kafka: 9092
+- Frontend: 4200
+
 ## Components and Services
 
 | Day (changed) | Feature                                       | Frontend Components                                                | Frontend Services                                               | Backend Controllers                            | Backend Services                                                | Entities                                 |
