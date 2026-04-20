@@ -16,9 +16,9 @@ You follow one day at a time, keep a working checkpoint after each step, and end
 
 Instead of integrating each regional process yourself, you configure EDDIE with:
 
-- one or more **region connectors** implementing the specific process of a data provider
-- one or more **outbound connectors** implementing the way your application wants to receive data (REST, Kafka, AMQP)
-- one or more **data needs** describing the data you want to receive
+- **region connectors** implementing the specific process of a data provider
+- **outbound connectors** implementing the way your application receives data (REST, Kafka, AMQP)
+- **data needs** describing the data you want to receive
 
 On the user-facing side, your application embeds the **EDDIE Connect button**.
 When a customer grants permission, EDDIE handles the underlying consent and connector workflow and delivers permission updates and energy data back to your application.
