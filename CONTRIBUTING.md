@@ -31,10 +31,7 @@ You may also open an issue if you have questions or suggestions that are not dir
 
 Days are plain Markdown first and should render well both on GitHub and in VitePress.
 
-Each day should include links to download the starting code at the beginning and the result at the end.
-
-- [Download starting code](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-01.zip)
-- [Download result](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-02.zip)
+Days start with a checklist of goals, an estimated time to complete the day, and a link to download the starting code.
 
 ```markdown
 **Goal**:
@@ -43,6 +40,27 @@ Each day should include links to download the starting code at the beginning and
 - Second goal
 
 **Estimated time**: 2h
+
+[Download starting code](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-01.zip)
 ```
 
+At the end of the day, there is a checkpoint section that summarizes the key takeaways.
+A final section outlines what the next day will cover and provides a link to download the expected result of the day.
+
+```markdown
+## Checkpoint
+
+- First key takeaway
+- Second key takeaway
+
+## What's next
+
+Next we will cover...
+
+[Download the result of the day](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-01.zip)
+```
+
+Use British English.
 Refer to UI elements by highlighting its label in **bold**.
+
+Exclude imports from Java code snippets.
