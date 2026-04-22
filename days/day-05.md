@@ -185,7 +185,7 @@ import { keycloak } from '../main';
     styleUrl: './app.css',
 })
 export class App implements OnInit {
-    title = signal('stranger');
+    name = signal('stranger');
 
     ngOnInit() {
         fetch('http://localhost:8082/api/me', {
@@ -198,6 +198,13 @@ export class App implements OnInit {
             .catch((err) => console.error(err));
     }
 }
+```
+
+We will take this opportunity to remove the default Angular content from
+`app.html` and replace it with a simple welcome message.
+
+```html [frontend/src/app/app.html]
+<h1>Hello, {{ name() }}!</h1>
 ```
 
 When visiting http://localhost:4200 you should now be redirected to the Keycloak login page.
