@@ -9,7 +9,7 @@ import { keycloak } from '../main';
   styleUrl: './app.css',
 })
 export class App implements OnInit {
-  title = signal('stranger');
+  name = signal('stranger');
 
   ngOnInit() {
     fetch('http://localhost:8082/api/me', {
@@ -18,7 +18,7 @@ export class App implements OnInit {
       },
     })
       .then((response) => response.json())
-      .then((data) => this.title.set(data.name))
+      .then((data) => this.name.set(data.name))
       .catch((err) => console.error(err));
   }
 }
