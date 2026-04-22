@@ -121,7 +121,39 @@ class UserController {
 }
 ```
 
-Now run the backend:
+To prepare for the following days, we will also add a database connection to our backend.
+We will reuse the PostgreSQL instance from the EDDIE stack and connect to it with Spring Data JPA.
+We will however create a new database and user to avoid any accidental interference with EDDIE's data.
+
+Create a new `db.sql` file with the following content.
+
+```sql [db.sql]
+CREATE DATABASE tutorial;
+CREATE USER tutorial WITH ENCRYPTED PASSWORD 'tutorial';
+GRANT ALL PRIVILEGES ON DATABASE tutorial TO tutorial;
+```
+
+In our `docker-compose.yml` we will mount this file into the PostgreSQL container so it is executed on startup and creates the required database and user.
+We will also expose the PostgreSQL port so our backend can connect to it.
+
+```yaml [docker-compose.yml]
+  db:
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql:ro
+```
+
+Finally, we will add the database connection configuration to our Spring Boot application.
+In a production application, you would want to use environment variables for the database credentials instead of hardcoding them in the properties file.
+
+```properties [backend/src/main/resources/application.properties]
+spring.datasource.url=jdbc:postgresql://localhost:5432/tutorial
+spring.datasource.username=tutorial
+spring.datasource.password=tutorial
+```
+
+You should now be able to run the backend with the following command:
 
 ```shell
 cd backend
