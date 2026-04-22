@@ -6,8 +6,11 @@ services:
       POSTGRES_USER: eddie
       POSTGRES_PASSWORD: eddie
       POSTGRES_DB: eddie
+    ports:
+      - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U eddie"]
       interval: 10s
