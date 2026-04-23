@@ -98,6 +98,7 @@ class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) {
         return http
                 .cors(Customizer.withDefaults())
+                .csrf(CsrfConfigurer::spa)
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .build();
@@ -146,11 +147,13 @@ We will also expose the PostgreSQL port so our backend can connect to it.
 
 Finally, we will add the database connection configuration to our Spring Boot application.
 In a production application, you would want to use environment variables for the database credentials instead of hardcoding them in the properties file.
+We are also setting `spring.jpa.hibernate.ddl-auto=update` for simplicity, but in a production application you would want to manage your database schema with proper migrations.
 
 ```properties [backend/src/main/resources/application.properties]
 spring.datasource.url=jdbc:postgresql://localhost:5432/tutorial
 spring.datasource.username=tutorial
 spring.datasource.password=tutorial
+spring.jpa.hibernate.ddl-auto=update
 ```
 
 You should now be able to run the backend with the following command:
