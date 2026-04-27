@@ -1,3 +1,2 @@
-CREATE DATABASE tutorial;
 CREATE USER tutorial WITH ENCRYPTED PASSWORD 'tutorial';
-GRANT ALL PRIVILEGES ON DATABASE tutorial TO tutorial;
+CREATE DATABASE tutorial OWNER tutorial;
