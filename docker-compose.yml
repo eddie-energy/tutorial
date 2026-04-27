@@ -65,6 +65,19 @@ services:
       - ./keycloak.json:/opt/keycloak/data/import/realm.json:ro
     command: start-dev --import-realm
 
+  lgtm:
+    image: grafana/otel-lgtm:latest
+    ports:
+      - "3000:3000"   # Grafana
+    environment:
+      GF_SMTP_ENABLED: "true"
+      GF_SMTP_HOST: "smtp.gmail.com:587"
+      GF_SMTP_USER: "replace-me@gmail.com"
+      GF_SMTP_PASSWORD: "your-app-password"
+      GF_SMTP_FROM_ADDRESS: "replace-me@gmail.com"
+      GF_SMTP_FROM_NAME: "Grafana Alerts"
+      GF_SMTP_SKIP_VERIFY: "false"
+
 volumes:
   db-data:
   keycloak-data:
