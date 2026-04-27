@@ -129,9 +129,8 @@ We will however create a new database and user to avoid any accidental interfere
 Create a new `db.sql` file with the following content.
 
 ```sql [db.sql]
-CREATE DATABASE tutorial;
 CREATE USER tutorial WITH ENCRYPTED PASSWORD 'tutorial';
-GRANT ALL PRIVILEGES ON DATABASE tutorial TO tutorial;
+CREATE DATABASE tutorial OWNER tutorial;
 ```
 
 In our `docker-compose.yml` we will mount this file into the PostgreSQL container so it is executed on startup and creates the required database and user.
