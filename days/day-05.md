@@ -55,6 +55,21 @@ Before starting the Keycloak container, create `keycloak.json`.
       ],
       "publicClient": true
     }
+  ],
+  "users": [
+    {
+      "username": "eddie",
+      "email": "eddie@eddie.local",
+      "firstName": "Eddie",
+      "lastName": "Eddington",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "eddie"
+        }
+      ]
+    }
   ]
 }
 ```
@@ -66,6 +81,7 @@ docker compose start keycloak
 ```
 
 Open http://localhost:8888/admin/master/console/#/tutorial-realm and log in with admin/admin to verify the realm was imported correctly.
+Our imported realm also includes a test user `eddie` with password `eddie` that you can use to log in from the frontend later.
 
 ## Step 2 — Create the Spring backend
 
