@@ -74,6 +74,7 @@ Current published day guides:
 | [Day 3](days/day-03.md) | Outbound connector strategy: REST, Kafka, and AMQP                        |
 | [Day 4](days/day-04.md) | Permission lifecycle, revocation, termination, and tracing                |
 | [Day 5](days/day-05.md) | Application skeleton with Spring, Angular, Keycloak, and the EDDIE button |
+| [Day 9](days/day-09.md) | Integrate OpenTelemetry for observability into EDDIE                      |
 
 The broader learning path follows four phases:
 
