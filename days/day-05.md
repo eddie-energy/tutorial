@@ -276,6 +276,21 @@ Then in your `app.html` you can add the EDDIE button component:
 <eddie-connect-button connection-id="1" data-need-id="00000000-0000-0000-0000-000000000001"></eddie-connect-button>
 ```
 
+For Angular to recognize the web component, we need to add `CUSTOM_ELEMENTS_SCHEMA` to the component annotation of
+`app.ts`.
+
+```typescript [frontend/src/app/app.ts]
+import {Component, NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+
+@Component({
+    selector: 'app-root',
+    imports: [RouterOutlet],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    templateUrl: './app.html',
+    styleUrl: './app.css',
+})
+```
+
 Run the frontend:
 
 ```shell
