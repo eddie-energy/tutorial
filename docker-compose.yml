@@ -1,0 +1,73 @@
+name: eddie-tutorial
+services:
+  db:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_USER: eddie
+      POSTGRES_PASSWORD: eddie
+      POSTGRES_DB: eddie
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eddie"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  eddie:
+    image: ghcr.io/eddie-energy/eddie:latest
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    volumes:
+      - ./data-needs.json:/opt/core/config/data-needs.json
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  kafka:
+    image: docker.io/apache/kafka:4.1.0
+    ports:
+      - "9094:9094"
+    environment:
+      - KAFKA_NODE_ID=0
+      - KAFKA_PROCESS_ROLES=controller,broker
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_SOCKET_REQUEST_MAX_BYTES=104857600
+      - KAFKA_MESSAGE_MAX_BYTES=104857600
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.6.0
+    ports:
+      - "8888:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    volumes:
+      - ./keycloak.json:/opt/keycloak/data/import/realm.json:ro
+    command: start-dev --import-realm
+
+  lgtm:
+    image: grafana/otel-lgtm:latest
+    ports:
+      - "3000:3000"   # Grafana
+    environment:
+      GF_SMTP_ENABLED: "true"
+      GF_SMTP_HOST: "smtp.gmail.com:587"
+      GF_SMTP_USER: "replace-me@gmail.com"
+      GF_SMTP_PASSWORD: "your-app-password"
+      GF_SMTP_FROM_ADDRESS: "replace-me@gmail.com"
+      GF_SMTP_FROM_NAME: "Grafana Alerts"
+      GF_SMTP_SKIP_VERIFY: "false"

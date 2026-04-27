@@ -1,0 +1,26 @@
+[
+  {
+    "type": "validated",
+    "id": "00000000-0000-0000-0000-000000000001",
+    "name": "Last 3 months daily",
+    "description": "Your electricity consumption for the past 3 months, aggregated daily",
+    "purpose": "Retrieve historical consumption data for analytics",
+    "policyLink": "https://example.com/privacy",
+    "duration": {
+      "type": "relativeDuration",
+      "start": "-P3M",
+      "end": "P0D"
+    },
+    "energyType": "ELECTRICITY",
+    "minGranularity": "P1D",
+    "maxGranularity": "P1D"
+  },
+  {
+    "type": "account",
+    "id": "00000000-0000-0000-0000-000000000002",
+    "name": "Accounting point master data",
+    "description": "Information about your metering point and contract",
+    "purpose": "Retrieve metering point details for energy services",
+    "policyLink": "https://example.com/privacy"
+  }
+]
