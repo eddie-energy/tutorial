@@ -11,6 +11,8 @@ import { keycloak } from '../main';
 })
 export class App implements OnInit {
   name = signal('stranger');
+  userId = signal('');
+  connections = signal<{ id: string; permissionId: string; status: string }[]>([]);
 
   ngOnInit() {
     fetch('http://localhost:8082/api/me', {
@@ -19,7 +21,24 @@ export class App implements OnInit {
       },
     })
       .then((response) => response.json())
-      .then((data) => this.name.set(data.name))
+      .then((data) => {
+        this.name.set(data.name);
+        this.userId.set(data.id);
+
+        void this.updateConnections();
+      })
       .catch((err) => console.error(err));
+  }
+
+  async updateConnections() {
+    const response = await fetch('http://localhost:8082/api/connections', {
+      headers: {
+        Authorization: `Bearer ${keycloak.token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    this.connections.set(data);
   }
 }
