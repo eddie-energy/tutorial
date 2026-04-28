@@ -37,3 +37,19 @@ This document tracks the planned application scope for the example app resulting
 | 15 (17)       | Real-time UI                                  | `RealtimePage`, `RealtimeChart`                                    | `RealtimeStreamService`                                         | `RealtimeController`                           | `RealtimeProjectionService`                                     | `RealtimeMeasurement`                    |
 | 16 (17)       | IoT command flow                              | `DeviceCommandPage`, `CommandHistory`                              | `DeviceCommandService`                                          | `DeviceCommandController`                      | `DeviceCommandService`, `CommandAckService`                     | `DeviceCommand`, `CommandResult`         |
 | 17            | Event-driven switch from REST to Kafka        |                                                                    |                                                                 |                                                | `OutboundIngestionPort`, `KafkaOutboundAdapter`                 | `DomainEvent`                            |
+
+## Connection tracking
+
+Two options for tracking permissions from the app:
+
+- Connection ID = User ID → 1 connection ID ⇔ N permission IDs
+- Connection IDs map to User IDs → 1 connection ID ⇔ 1 permission ID
+
+For registering created connections:
+- The frontend can send an API call when the button dispatches the creation event
+- The backend can subscribe to status messages and create connections when it sees a new permission creation
+
+## Questions
+
+- Label to created connections?
+- How to style without effort?
