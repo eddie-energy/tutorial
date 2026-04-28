@@ -1,3 +1,31 @@
-<h1>Hello, {{ name() }}!</h1>
+<h1>Tutorial App</h1>
 
-<eddie-connect-button connection-id="1" data-need-id="00000000-0000-0000-0000-000000000001"></eddie-connect-button>
+<h2>Hello, {{ name() }}!</h2>
+
+<h3>Your connections</h3>
+
+@if (connections().length > 0) {
+  <ul>
+    @for (connection of connections(); track connection.id) {
+      <li>
+        <i>{{ connection.permissionId }}</i>
+        <br />
+        <span>{{ connection.status }}</span>
+      </li>
+    }
+  </ul>
+} @else {
+  <p>You have no connections yet.</p>
+}
+
+<h3>Connect your data</h3>
+
+<eddie-connect-button
+  [attr.connection-id]="userId()"
+  data-need-id="00000000-0000-0000-0000-000000000001"
+></eddie-connect-button>
+<br />
+<eddie-connect-button
+  [attr.connection-id]="userId()"
+  data-need-id="00000000-0000-0000-0000-000000000002"
+></eddie-connect-button>
