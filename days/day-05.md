@@ -225,12 +225,10 @@ Next we will just slightly adapt the `app.ts` file to show the current user.
 
 ```typescript [frontend/src/app/app.ts]
 import { Component, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { keycloak } from '../main';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet],
     templateUrl: './app.html',
     styleUrl: './app.css',
 })
@@ -284,7 +282,6 @@ import {Component, NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: './app.html',
     styleUrl: './app.css',

@@ -209,7 +209,6 @@ We will also update our user details query to also set the user id.
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: './app.html',
     styleUrl: './app.css',
