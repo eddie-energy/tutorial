@@ -20,6 +20,10 @@ class UserConnectionService {
         eddie.connectionStatusMessages(message -> {
             var userConnection = repository
                     .findByPermissionId(message.permissionId())
+                    .map(connection -> {
+                        connection.setStatus(message.status());
+                        return connection;
+                    })
                     .orElse(new UserConnection(
                             message.connectionId(),
                             message.permissionId(),
