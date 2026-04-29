@@ -128,7 +128,7 @@ public class EddieRestClient {
                 .retrieve()
                 .bodyToFlux(ConnectionStatusMessage.class)
                 .doOnError(error -> LOGGER.error("Error while retrieving connection status messages", error))
-                .retry()
+                .retryWhen(Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(5)))
                 .subscribe(consumer);
     }
 }
