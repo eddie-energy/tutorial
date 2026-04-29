@@ -31,9 +31,16 @@ You may also open an issue if you have questions or suggestions that are not dir
 
 Days are plain Markdown first and should render well both on GitHub and in VitePress.
 
-Days start with a checklist of goals, an estimated time to complete the day, and a link to download the starting code.
+1. Days start with a checklist of goals, an estimated time to complete the day, and a link to download the starting code.
+2. The guide itself is best grouped into a few steps providing a clear outline.
+3. At the end of the day, there is a checkpoint section that summarises the key takeaways.
+4. A final section outlines what the next day will cover and provides a link to download the expected result of the day.
+
+The following structure can be used as a template for new day guides:
 
 ```markdown
+# Day 1 — A descriptive title for the day
+
 **Goal**:
 
 - First goal
@@ -42,12 +49,12 @@ Days start with a checklist of goals, an estimated time to complete the day, and
 **Estimated time**: 2h
 
 [Download starting code](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-01.zip)
-```
 
-At the end of the day, there is a checkpoint section that summarizes the key takeaways.
-A final section outlines what the next day will cover and provides a link to download the expected result of the day.
+## Step 1 — The first of a few steps
 
-```markdown
+We will build ...
+Create the file ...
+
 ## Checkpoint
 
 - First key takeaway
