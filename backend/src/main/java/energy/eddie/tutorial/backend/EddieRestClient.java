@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
 
+import java.time.Duration;
 import java.util.function.Consumer;
 
 @Component
@@ -21,7 +23,7 @@ public class EddieRestClient {
                 .retrieve()
                 .bodyToFlux(ConnectionStatusMessage.class)
                 .doOnError(error -> LOGGER.error("Error while retrieving connection status messages", error))
-                .retry()
+                .retryWhen(Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(5)))
                 .subscribe(consumer);
     }
 }
