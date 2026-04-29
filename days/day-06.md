@@ -294,18 +294,94 @@ Next we update our `app.html` to show our connections and our two buttons:
 
 ## Step 4 — Trace connection ID in outbound messages
 
-TODO
+Let's try our approach by generating some status messages and tracking our user's actions through the REST outbound connector.
+If not running already, start your containers, the backend, and the frontend:
+
+```shell
+docker compose up -d
+
+cd backend
+./gradlew bootRun
+
+cd ../frontend
+npm start
+```
+
+Before we create any connections, we will use the `curl` command (or any other HTTP client) 
+to subscribe to the same status message endpoint that we use in our backend.
+
+```shell
+curl -N -H "Accept: text/event-stream" http://localhost:9090/outbound-connectors/rest/agnostic/connection-status-messages
+```
+
+Now log in to your frontend at http://localhost:4200, for example with our default user eddie/eddie.
+Click the first EDDIE button for validated historical data and select the simulation connector.
+
+At the top you will see the user ID provided by Keycloak as our connection ID.
+Instead of generating specific events, we will select the "Validated Historical Data Scenario" to generate a typical permission flow.
+
+![Connection and scenario highlighted in the simulation connector](../resources/day-06/scenario.png)
+
+Once you click "Run Scenario", you should see a couple connection status messages like this pop up in your HTTP client.
+
+```json
+{
+  "connectionId": "c453fe72-db1a-4c56-84a3-483dbf68e19b",
+  "permissionId": "ed5a7625-59f9-4a2e-838f-3cf1cf8979f3",
+  "dataNeedId": "00000000-0000-0000-0000-000000000001",
+  "dataSourceInformation": {
+    "countryCode": "DE",
+    "meteredDataAdministratorId": "sim",
+    "permissionAdministratorId": "sim",
+    "regionConnectorId": "sim"
+  },
+  "timestamp": "2026-04-29T09:29:48.003523597Z",
+  "status": "CREATED",
+  "message": "",
+  "additionalInformation": null
+}
+```
+
+Notice that this status message includes our user id as its connection id.
+When you reload the frontend in your browser, the permission id should now show up together with the latest status.
+
+![Connection shows up in the browser](../resources/day-06/browser.png)
 
 ## Step 5 — Customise the EDDIE button
 
-TODO
+Depending on how you integrate the EDDIE button in your application, 
+you might want to customise its visuals and content.
+Fortunately, the EDDIE button supports multiple customisation options.
+
+To show which type of data each button connects, 
+we will change the text of the buttons in the `app.html`.
+
+```html
+<eddie-connect-button
+        [attr.connection-id]="userId()"
+        data-need-id="00000000-0000-0000-0000-000000000001">
+    Historical Validated Data
+</eddie-connect-button>
+<br/>
+<eddie-connect-button
+        [attr.connection-id]="userId()"
+        data-need-id="00000000-0000-0000-0000-000000000002">
+    Accounting Point Data
+</eddie-connect-button>
+```
+
+![Custom buttons](../resources/day-06/custom-buttons.png)
+
+For a full overview on button customisation, refer to the EDDIE framework documentation:
+https://architecture.eddie.energy/framework/1-running/eddie-button/eddie-button.html#customize-colors-and-content
 
 ## Checkpoint
 
 - [ ] Frontend renders EDDIE buttons for historical data and accounting point data
 - [ ] Buttons are configured with a data need and the user id as its connection id
 - [ ] Previously added connections are visible on the frontend
-- [ ] Existing connections will update their status
+- [ ] Existing connections update their status
+- [ ] The button text shows which type of data to connect
 
 ## What's next
 
