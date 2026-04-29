@@ -90,6 +90,10 @@ class UserConnection {
     public String getStatus() {
         return status;
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
 ```
 
@@ -156,6 +160,10 @@ class UserConnectionService {
         eddie.connectionStatusMessages(message -> {
             var userConnection = repository
                     .findByPermissionId(message.permissionId())
+                    .map(connection -> {
+                        connection.setStatus(message.status());
+                        return connection;
+                    })
                     .orElse(new UserConnection(
                             message.connectionId(),
                             message.permissionId(),
