@@ -18,7 +18,7 @@ services:
       - "8080:8080"
       - "9090:9090"
     volumes:
-      - ./data-needs.json:/opt/core/config/data-needs.json
+      - ./data-needs.json:/opt/core/config/data-needs.json:ro
     env_file: .env
     depends_on:
       db:
