@@ -26,4 +26,14 @@ public class EddieRestClient {
                 .retryWhen(Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(5)))
                 .subscribe(consumer);
     }
+
+    public void rawDataMessages(Consumer<RawDataMessage> consumer) {
+        client.get().uri("/agnostic/raw-data-messages")
+                .accept(MediaType.TEXT_EVENT_STREAM)
+                .retrieve()
+                .bodyToFlux(RawDataMessage.class)
+                .doOnError(error -> LOGGER.error("Error while retrieving raw data messages", error))
+                .retryWhen(Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(5)))
+                .subscribe(consumer);
+    }
 }
