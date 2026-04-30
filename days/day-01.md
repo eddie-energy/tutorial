@@ -26,6 +26,7 @@ mkdir my-energy-app && cd my-energy-app
 ## Step 2 — Write the Compose file
 
 The standard way of running the EDDIE framework is as a Docker container.
+For this tutorial, we will define all our services in a single `docker-compose.yml` file.
 
 ```yaml [docker-compose.yml]
 name: eddie-tutorial
@@ -116,13 +117,15 @@ EDDIE_DATA_NEEDS_CONFIG_FILE=./config/data-needs.json
 ## Step 4 — Define your data needs
 
 A **data need** describes what kind of data you want to request from a customer.
-It acts as the template for a permissions request — the customer sees its description and purpose in the EDDIE dialog before agreeing.
+It acts as the template for a permissions request — the customer sees its description and purpose in the EDDIE dialogue before agreeing.
+We can provide data needs by configuration or manage them via an API.
+For now, we will define two data needs inside a new file `data-needs.json` in our project root.
 
-```json
+```json [data-needs.json]
 [
   {
     "type": "account",
-    "id": "00000001-0000-0000-0000-000000000001",
+    "id": "00000000-0000-0000-0000-000000000001",
     "name": "Accounting point master data",
     "description": "Information about your metering point and contract",
     "purpose": "Retrieve metering point details for energy services",
@@ -130,7 +133,7 @@ It acts as the template for a permissions request — the customer sees its desc
   },
   {
     "type": "validated",
-    "id": "00000001-0000-0000-0000-000000000002",
+    "id": "00000000-0000-0000-0000-000000000002",
     "name": "Last 3 months daily",
     "description": "Your electricity consumption for the past 3 months, aggregated daily",
     "purpose": "Retrieve historical consumption data for analytics and cost reporting",
@@ -214,8 +217,12 @@ Find the **Connection Status** container and select the **CREATED** status.
 Press **Submit** to confirm the connection status.
 
 Now we will use the REST outbound connector to track our connection status:
-http://localhost:9090/outbound-connectors/rest/agnostic/connection-status-messages.
+http://localhost:9090/outbound-connectors/rest/agnostic/connection-status-messages
 You can simply open the API endpoint in your browser, or use an HTTP client like `curl`.
+
+```shell
+curl http://localhost:9090/outbound-connectors/rest/agnostic/connection-status-messages
+```
 
 > [!NOTE]
 > Browsers will usually request the data as XML, while HTTP clients will often use JSON. This tutorial will use JSON for brevity.

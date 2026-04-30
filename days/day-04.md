@@ -68,4 +68,6 @@ You understand:
 
 ## What's next
 
+On day 5 you will create the basis for your application by creating a backend and frontend and setting up Keycloak for authentication.
+
 [Download the result of the day](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-04.zip)

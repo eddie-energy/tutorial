@@ -267,13 +267,13 @@ Next we update our `app.html` to show our connections and our two buttons:
 
 @if (connections().length > 0) {
 <ul>
-    @for (connection of connections(); track connection.id) {
-    <li>
-        <i>{{ connection.permissionId }}</i>
-        <br/>
-        <span>{{ connection.status }}</span>
-    </li>
-    }
+  @for (connection of connections(); track connection.id) {
+  <li>
+    <i>{{ connection.permissionId }}</i>
+    <br />
+    <span>{{ connection.status }}</span>
+  </li>
+  }
 </ul>
 } @else {
 <p>You have no connections yet.</p>
@@ -282,13 +282,13 @@ Next we update our `app.html` to show our connections and our two buttons:
 <h3>Connect your data</h3>
 
 <eddie-connect-button
-        [attr.connection-id]="userId()"
-        data-need-id="00000000-0000-0000-0000-000000000001"
+  [attr.connection-id]="userId()"
+  data-need-id="00000000-0000-0000-0000-000000000001"
 ></eddie-connect-button>
-<br/>
+<br />
 <eddie-connect-button
-        [attr.connection-id]="userId()"
-        data-need-id="00000000-0000-0000-0000-000000000002"
+  [attr.connection-id]="userId()"
+  data-need-id="00000000-0000-0000-0000-000000000002"
 ></eddie-connect-button>
 ```
 
@@ -307,7 +307,7 @@ cd ../frontend
 npm start
 ```
 
-Before we create any connections, we will use the `curl` command (or any other HTTP client) 
+Before we create any connections, we will use the `curl` command (or any other HTTP client)
 to subscribe to the same status message endpoint that we use in our backend.
 
 ```shell
@@ -349,24 +349,26 @@ When you reload the frontend in your browser, the permission id should now show 
 
 ## Step 5 — Customise the EDDIE button
 
-Depending on how you integrate the EDDIE button in your application, 
+Depending on how you integrate the EDDIE button in your application,
 you might want to customise its visuals and content.
 Fortunately, the EDDIE button supports multiple customisation options.
 
-To show which type of data each button connects, 
+To show which type of data each button connects,
 we will change the text of the buttons in the `app.html`.
 
 ```html
 <eddie-connect-button
-        [attr.connection-id]="userId()"
-        data-need-id="00000000-0000-0000-0000-000000000001">
-    Historical Validated Data
+  [attr.connection-id]="userId()"
+  data-need-id="00000000-0000-0000-0000-000000000001"
+>
+  Historical Validated Data
 </eddie-connect-button>
-<br/>
+<br />
 <eddie-connect-button
-        [attr.connection-id]="userId()"
-        data-need-id="00000000-0000-0000-0000-000000000002">
-    Accounting Point Data
+  [attr.connection-id]="userId()"
+  data-need-id="00000000-0000-0000-0000-000000000002"
+>
+  Accounting Point Data
 </eddie-connect-button>
 ```
 
