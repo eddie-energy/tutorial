@@ -108,17 +108,27 @@ interface UserConnectionRepository extends JpaRepository<UserConnection, String>
 }
 ```
 
-<!-- TODO: Inline the rest client logic into the service? -->
-
 Before we add our service, we will handle the retrieval of status messages.
 We previously used the REST endpoints of the EDDIE framework to retrieve all status messages.
 However, these endpoints can also provide data in real-time via server-sent events.
 
-We will encapsulate this logic in a new class `EddieRestClient.java`.
+First, we create a data transfer object in `ConnectionStatusMessage.java` that models the status messages received from EDDIE.
+
+```java [ConnectionStatusMessage.java]
+public record ConnectionStatusMessage(
+        String connectionId,
+        String permissionId,
+        String dataNeedId,
+        String status
+) {
+}
+```
+
+Next, we create the HTTP client to consume the status message endpoint.
+We will encapsulate the client logic in a new class `EddieRestClient.java`.
 Spring's [WebClient](https://docs.spring.io/spring-framework/reference/web/webflux-webclient.html) that we added on the previous day has built-in support for server-sent event streams.
 
 ```java [EddieRestClient.java]
-
 @Component
 public class EddieRestClient {
 
