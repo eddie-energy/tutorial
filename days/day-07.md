@@ -219,7 +219,7 @@ For persisting the data points create a new repository in `MeterReadingRepositor
 interface MeterReadingRepository extends JpaRepository<MeterReading, MeterReading.Id> {}
 ```
 
-We will keep the body empty for now and implement the data access when we need it.
+We will keep the body empty for now and implement the data access in the next step.
 To complete the persisting logic, we add a new service `MeterReadingService` similar to our `UserConnectionService`.
 The service again injects its repository and the EDDIE client.
 To map the raw data payload to `SimulationMeterReading` objects we also inject an object mapper.
@@ -284,13 +284,131 @@ void init() {
 Now if we restart our backend, we can again navigate to our simulation connector via the EDDIE button and generate some more data.
 If everything worked, the values generated should end up in your database.
 
+## Step 3 — Show the latest reading on the frontend
+
+<!-- TODO: Display readings per permission on click instead? -->
+
+As mentioned earlier, we eventually want to visualise the energy consumption of a user in a diagram.
+However, processing time series data for this purpose efficiently can be troublesome.
+So instead we will end with showing just the latest reading per connection for now.
+
+In our `MeterReadingRepository` add the following query method:
+
+```java [MeterReadingRepository.java]
+@Query(value = """
+    SELECT DISTINCT ON (permission_id) *
+    FROM meter_reading
+    WHERE user_id = :userId
+    ORDER BY permission_id, timestamp DESC;
+    """, nativeQuery = true)
+List<MeterReading> findLatestPerPermission(@Param("userId") String userId);
+```
+
+The query uses a native PostgreSQL query to 
+1. filter rows by the given user id
+2. order rows by permission id and timestamp
+3. select only the first item per permission id
+
+This effectively results in a list of the latest meter reading per permission.
+
+Inside our `MeterReadingService` we add a simple delegating method of the same signature.
+
+```java [MeterReadingService.java]
+List<MeterReading> findLatestPerPermission(String userId) {
+    return repository.findLatestPerPermission(userId);
+}
+```
+
+Next we create a new controller in `MeterReadingController.java`.
+You can pretty much copy the `UserConnectionController` replacing `UserConnection` with `MeterReading`.
+
+```java [MeterReadingController.java]
+@RestController
+@CrossOrigin(origins = "http://localhost:4200")
+class MeterReadingController {
+
+    private final MeterReadingService meterReadingService;
+
+    MeterReadingController(MeterReadingService meterReadingService) {
+        this.meterReadingService = meterReadingService;
+    }
+
+    @GetMapping("/api/readings/latest")
+    List<MeterReading> latest(@AuthenticationPrincipal Jwt jwt) {
+        return meterReadingService.findLatestPerPermission(jwt.getSubject());
+    }
+}
+```
+
+<!-- TODO: Separate TS (service) file for metered data? -->
+
+In our `app.ts` file we add a new method `updateLatestReading` to read the endpoint into a signal `latestReading`.
+This signal holds a mapping of permission id to a description string.
+
+```ts [app.ts]
+export class App implements OnInit {
+    latestReadings = signal<Map<string, string>>(new Map());
+
+    ngOnInit() {
+        // ...
+        void this.updateLatestReadings();
+    }
+
+    async updateLatestReadings() {
+        const response = await fetch('http://localhost:8082/api/readings/latest', {
+            headers: {
+                Authorization: `Bearer ${keycloak.token}`,
+            },
+        });
+
+        const readings = await response.json();
+        const mapped = new Map();
+
+        for (const { permissionId, quantity, timestamp } of readings) {
+            mapped.set(
+                permissionId,
+                `Latest reading on ${new Date(timestamp).toLocaleString()}: ${quantity} Wh`,
+            );
+        }
+
+        this.latestReadings.set(mapped);
+    }
+}
+```
+
+Inside the `app.html` we add a new line to our connection entries reading the description for that permission.
+If no entry is found, the span will just be blank.
+
+```html
+@for (connection of connections(); track connection.id) {
+<li>
+    <i>{{ connection.permissionId }}</i>
+    <br />
+    <span>{{ connection.status }}</span>
+    <br />
+    <span>{{ latestReadings().get(connection.permissionId) }}</span>
+</li>
+}
+```
+
+Now if you reload your page, you should see an entry like this for the data you generated previously.
+
+```
+- 7ea9b598-1d28-456d-af3a-88f2d9b147f4
+  FULFILLED
+  Latest reading on 5/7/2026, 12:00:00 AM: 49 Wh
+```
+
 ## Checkpoint
 
-- First key takeaway
-- Second key takeaway
+- You understand the concept of raw data
+- Metered data readings generated from the simulation connector are saved to the database
+- The time of the latest reading is visible on the frontend
 
 ## What's next
 
-Next we will cover...
+On day 8 we will explore how to request future data that is not yet available, 
+how to detect gaps in your time series data,
+and how to request the retransmission of missing data.
 
 [Download the result of the day](https://github.com/eddie-energy/tutorial/archive/refs/heads/day-07.zip)
