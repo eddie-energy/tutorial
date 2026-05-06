@@ -14,6 +14,6 @@ class UserController {
 
     @GetMapping("/api/me")
     Map<String, String> me(@AuthenticationPrincipal Jwt jwt) {
-        return Map.of("name", jwt.getClaimAsString("name"));
+        return Map.of("id", jwt.getSubject(), "name", jwt.getClaimAsString("name"));
     }
 }
