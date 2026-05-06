@@ -41,7 +41,6 @@ We will follow a typical repository pattern of model, repository, service, and c
 In the backend folder, create a new file `UserConnection.java`:
 
 ```java [UserConnection.java]
-
 @Entity
 class UserConnection {
 
@@ -154,7 +153,6 @@ An init method runs after dependency injection to handle incoming status message
 If a connection with the given permission id already exists we instead update its status.
 
 ```java [UserConnectionService.java]
-
 @Service
 class UserConnectionService {
     private final UserConnectionRepository repository;
@@ -189,12 +187,9 @@ class UserConnectionService {
 }
 ```
 
-Finally, we will update our `UserController.java` to include an endpoint for retrieving connections.
-Note that we also adapt the `/api/me` endpoint to include the user id.
-We will use this user id as our connection id on the EDDIE button.
+Finally, we will add an endpoint to retrieve connections in a new controller file `UserConnectionController.java`.
 
-```java [UserController.java]
-
+```java [UserConnectionController.java]
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 class UserController {
@@ -203,11 +198,6 @@ class UserController {
 
     UserController(UserConnectionService userConnectionService) {
         this.userConnectionService = userConnectionService;
-    }
-
-    @GetMapping("/api/me")
-    Map<String, String> me(@AuthenticationPrincipal Jwt jwt) {
-        return Map.of("id", jwt.getSubject(), "name", jwt.getClaimAsString("name"));
     }
 
     @GetMapping("/api/connections")
@@ -221,10 +211,9 @@ class UserController {
 
 On the frontend, we will retrieve user connections to display and render EDDIE buttons for our data needs.
 In our `app.ts` file, add a new function to fetch existing connections.
-We will also update our user details query to also set the user id.
+We will also update our user details query to also set the user id from the user endpoint we implemented on day 5.
 
-```js [app.ts]
-
+```ts [app.ts]
 @Component({
     selector: 'app-root',
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

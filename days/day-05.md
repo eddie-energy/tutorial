@@ -133,7 +133,7 @@ class UserController {
 
     @GetMapping("/api/me")
     Map<String, String> me(@AuthenticationPrincipal Jwt jwt) {
-        return Map.of("name", jwt.getClaimAsString("name"));
+        return Map.of("id", jwt.getSubject(), "name", jwt.getClaimAsString("name"));
     }
 }
 ```
@@ -274,7 +274,7 @@ Then in your `app.html` you can add the EDDIE button component:
 <eddie-connect-button connection-id="1" data-need-id="00000000-0000-0000-0000-000000000001"></eddie-connect-button>
 ```
 
-For Angular to recognize the web component, we need to add `CUSTOM_ELEMENTS_SCHEMA` to the component annotation of
+For Angular to recognise the web component, we need to add `CUSTOM_ELEMENTS_SCHEMA` to the component annotation of
 `app.ts`.
 
 ```typescript [frontend/src/app/app.ts]
