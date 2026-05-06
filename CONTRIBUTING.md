@@ -70,4 +70,24 @@ Next we will cover...
 Use British English.
 Refer to UI elements by highlighting its label in **bold**.
 
-Exclude imports from Java code snippets.
+Code snippets should include the file name in square brackets after the language.
+Exclude the package name and imports.
+Include imports for symbols with multiple reasonable implementation options.
+
+````markdown
+```java [SomeClass.java]
+import org.springframework.security.oauth2.jwt.Jwt;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:4200")
+class UserController {
+
+    @GetMapping("/api/me")
+    Map<String, String> me(@AuthenticationPrincipal Jwt jwt) {
+        return Map.of("id", jwt.getSubject(), "name", jwt.getClaimAsString("name"));
+    }
+}
+```
+````
+
+Refer to Java files by file name when the file is first created and by class name if it already exists.
