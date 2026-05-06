@@ -11,7 +11,7 @@ export class App implements OnInit {
   name = signal('stranger');
   userId = signal('');
   connections = signal<{ id: string; permissionId: string; status: string }[]>([]);
-  latestReadings = signal<Map<string, { timestamp: string; quantity: string }>>(new Map());
+  latestReadings = signal<Map<string, string>>(new Map());
 
   ngOnInit() {
     fetch('http://localhost:8082/api/me', {
