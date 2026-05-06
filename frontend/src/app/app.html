@@ -2,6 +2,8 @@
 
 <h2>Hello, {{ name() }}!</h2>
 
+<span>Your connection id is: {{ userId() }}</span>
+
 <h3>Your connections</h3>
 
 @if (connections().length > 0) {
@@ -11,6 +13,8 @@
         <i>{{ connection.permissionId }}</i>
         <br />
         <span>{{ connection.status }}</span>
+        <br />
+        <span>{{ latestReadings().get(connection.permissionId) }}</span>
       </li>
     }
   </ul>

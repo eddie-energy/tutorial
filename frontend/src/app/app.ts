@@ -11,6 +11,7 @@ export class App implements OnInit {
   name = signal('stranger');
   userId = signal('');
   connections = signal<{ id: string; permissionId: string; status: string }[]>([]);
+  latestReadings = signal<Map<string, { timestamp: string; quantity: string }>>(new Map());
 
   ngOnInit() {
     fetch('http://localhost:8082/api/me', {
@@ -24,6 +25,7 @@ export class App implements OnInit {
         this.userId.set(data.id);
 
         void this.updateConnections();
+        void this.updateLatestReadings();
       })
       .catch((err) => console.error(err));
   }
@@ -38,5 +40,25 @@ export class App implements OnInit {
     const data = await response.json();
 
     this.connections.set(data);
+  }
+
+  async updateLatestReadings() {
+    const response = await fetch('http://localhost:8082/api/readings/latest', {
+      headers: {
+        Authorization: `Bearer ${keycloak.token}`,
+      },
+    });
+
+    const readings = await response.json();
+    const mapped = new Map();
+
+    for (const { permissionId, quantity, timestamp } of readings) {
+      mapped.set(
+        permissionId,
+        `Latest reading on ${new Date(timestamp).toLocaleString()}: ${quantity} Wh`,
+      );
+    }
+
+    this.latestReadings.set(mapped);
   }
 }
