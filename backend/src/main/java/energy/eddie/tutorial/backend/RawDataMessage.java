@@ -11,7 +11,7 @@ public record RawDataMessage(
         ZonedDateTime timestamp,
         String rawPayload
 ) {
-    private record DataSourceInformation(
+    public record DataSourceInformation(
             String countryCode,
             String regionConnectorId,
             String meteredDataAdministratorId,
