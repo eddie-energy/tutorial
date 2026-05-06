@@ -33,13 +33,22 @@ We show how to set up our most popular region connectors and then disable them t
 ## Why region connectors differ
 
 The simulation connector generates data inside EDDIE itself — no external systems involved.
-Real region connectors integrate with a Metered Data Administrator (MDA), the regional authority that holds actual meter readings. Each MDA has its own authentication protocol and onboarding process.
+Real region connectors integrate with a data access provider, the regional authority managing access actual meter readings.
+Each access provider has its own approach for authentication and data exchange.
+EDDIE abstracts these differences behind a common interface.
+From your application's perspective, every connector produces the same outbound messages regardless of region. 
+What changes is what EDDIE needs from you and your customers to establish that connection.
 
-EDDIE abstracts these differences behind a common interface. From your application's perspective, every connector produces the same outbound messages regardless of region. What changes is what EDDIE needs from you and your customers to establish that connection.
+While EDDIE can abstract away the data exchange aspect, each data access provider still has its own onboarding process.
+Registration can take multiple days and often requires you to have a company operating in that country.
 
-## Spain — Datadis
+Below, we will be looking at the setup for three region connectors.
+The goal is not to have all three region connectors running at the end of the day,
+but for you to get a better understanding of how real region connectors work.
+We will continue to use the simulation connector for the following days for a consistent experience.
 
-TODO
+If you want to onboard your own region, and it is not listed below, 
+you can instead check our documentation for [supported region connectors](https://architecture.eddie.energy/framework/1-running/region-connectors/region-connectors.html).
 
 ## France — Enedis
 
@@ -73,6 +82,10 @@ REGION_CONNECTOR_FR_ENEDIS_CLIENT_SECRET=<your-client-secret>
 # Enedis is rate-limited — do not poll more than once per day
 REGION_CONNECTOR_FR_ENEDIS_POLLING=0 0 17 * * *
 ```
+
+## Spain — Datadis
+
+TODO
 
 ## Austria — EDA
 
