@@ -95,7 +95,7 @@ The tutorial expects you to have:
 
 You will need the following software installed on your machine:
 
-- [Docker](https://docs.docker.com/get-docker/) with [Docker Compose](https://docs.docker.com/compose/)
+- [Docker](https://docs.docker.com/get-docker/) with [Docker Compose](https://docs.docker.com/compose/) 2.20.3 or higher
 - [Node.js](https://nodejs.org/en/download/) 20 or higher for running the frontend
 - [JDK](https://www.oracle.com/de/java/technologies/downloads/) 17 or higher for running the backend
 
