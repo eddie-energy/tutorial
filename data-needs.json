@@ -22,5 +22,26 @@
     "description": "Information about your metering point and contract",
     "purpose": "Retrieve metering point details for energy services",
     "policyLink": "https://example.com/privacy"
+  },
+  {
+    "type": "outbound-aiida",
+    "id": "00000000-0000-0000-0000-000000000004",
+    "name": "Near real-time data",
+    "description": "Near real-time consumption data from the smart meter",
+    "purpose": "purpose",
+    "policyLink": "https://example.com/privacy",
+    "duration": {
+      "type": "relativeDuration",
+      "start": "P0D",
+      "end": "P10D"
+    },
+    "transmissionSchedule": "*/5 * * * * *",
+    "acknowledgementRequired": false,
+    "schemas": [
+      "SMART-METER-P1-RAW",
+      "SMART-METER-P1-CIM-V1-12"
+    ],
+    "asset": "CONNECTION-AGREEMENT-POINT",
+    "dataTags": []
   }
 ]
