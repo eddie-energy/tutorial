@@ -1,0 +1,60 @@
+name: eddie-tutorial
+services:
+  aiida-db:
+    image: timescale/timescaledb:latest-pg17
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: aiida
+      POSTGRES_PASSWORD: aiida
+      POSTGRES_DB: aiida
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql:ro
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U aiida" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  aiida-emqx:
+    image: emqx/emqx:5.8.6
+    depends_on:
+      aiida-db:
+        condition: service_healthy
+    ports:
+      - "1884:1883"
+      - "8884:8883"
+      - "18084:18083"
+    environment:
+      EMQX_AUTHENTICATION__1__DATABASE: aiida
+      EMQX_AUTHENTICATION__1__SERVER: aiida-db:5432
+      EMQX_AUTHENTICATION__1__PASSWORD: aiida
+      EMQX_AUTHORIZATION__SOURCES__1__DATABASE: aiida
+      EMQX_AUTHORIZATION__SOURCES__1__SERVER: aiida-db:5432
+      EMQX_AUTHORIZATION__SOURCES__1__PASSWORD: aiida
+    restart: always
+    volumes:
+      - ./emqx.hocon:/opt/emqx/etc/base.hocon:ro
+      - ./init-user.json:/opt/emqx/data/init-user.json:ro
+    healthcheck:
+      test: [ "CMD", "/opt/emqx/bin/emqx", "ctl", "status" ]
+      interval: 5s
+      timeout: 25s
+      retries: 5
+
+  aiida:
+    image: ghcr.io/eddie-energy/aiida:latest
+    depends_on:
+      aiida-db:
+        condition: service_healthy
+      aiida-emqx:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "8081:8080"
+
+    # access "eddie" container as "localhost" via host network
+    extra_hosts:
+      - "localhost:host-gateway"

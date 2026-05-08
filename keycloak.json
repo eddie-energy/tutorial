@@ -7,10 +7,12 @@
       "clientId": "tutorial-client",
       "enabled": true,
       "redirectUris": [
-        "http://localhost:4200/*"
+        "http://localhost:4200/*",
+        "http://localhost:8081/*"
       ],
       "webOrigins": [
-        "http://localhost:4200"
+        "http://localhost:4200",
+        "http://localhost:8081"
       ],
       "publicClient": true
     }
