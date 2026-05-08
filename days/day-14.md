@@ -80,7 +80,7 @@ For this tutorial, we will simply add a new user in the `aiida/db.sql` file that
 CREATE USER emqx WITH ENCRYPTED PASSWORD 'aiida';
 ```
 
-## MQTT Broker
+### MQTT Broker
 
 ```yaml [aiida/docker-compose.yml]
   aiida-emqx:

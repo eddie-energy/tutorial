@@ -67,16 +67,17 @@ Those branches represent the expected code state at the end of a day.
 
 Current published day guides:
 
-| Day                     | Topic                                                                     |
-|-------------------------|---------------------------------------------------------------------------|
-| [Day 1](days/day-01.md) | First contact with EDDIE, simulation connector, first REST flow           |
-| [Day 2](days/day-02.md) | Real region connectors and onboarding expectations                        |
-| [Day 3](days/day-03.md) | Outbound connector strategy: REST, Kafka, and AMQP                        |
-| [Day 4](days/day-04.md) | Permission lifecycle, revocation, termination, and tracing                |
-| [Day 5](days/day-05.md) | Application skeleton with Spring, Angular, Keycloak, and the EDDIE button |
-| [Day 6](days/day-06.md) | Map permissions to users                                                  |
-| [Day 7](days/day-07.md) | Process raw data to store meter readings per user                         |
-| [Day 9](days/day-09.md) | Integrate OpenTelemetry for observability into EDDIE                      |
+| Day                      | Topic                                                                     |
+|--------------------------|---------------------------------------------------------------------------|
+| [Day 1](days/day-01.md)  | First contact with EDDIE, simulation connector, first REST flow           |
+| [Day 2](days/day-02.md)  | Real region connectors and onboarding expectations                        |
+| [Day 3](days/day-03.md)  | Outbound connector strategy: REST, Kafka, and AMQP                        |
+| [Day 4](days/day-04.md)  | Permission lifecycle, revocation, termination, and tracing                |
+| [Day 5](days/day-05.md)  | Application skeleton with Spring, Angular, Keycloak, and the EDDIE button |
+| [Day 6](days/day-06.md)  | Map permissions to users                                                  |
+| [Day 7](days/day-07.md)  | Process raw data to store meter readings per user                         |
+| [Day 9](days/day-09.md)  | Integrate OpenTelemetry for observability into EDDIE                      |
+| [Day 14](days/day-14.md) | Set up AIIDA and use it to connect near real-time data                    |
 
 The broader learning path follows four phases:
 
