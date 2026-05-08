@@ -1,4 +1,6 @@
 name: eddie-tutorial
+include:
+  - aiida/docker-compose.yml
 services:
   db:
     image: postgres:17-bookworm
@@ -77,6 +79,23 @@ services:
       GF_SMTP_FROM_ADDRESS: "replace-me@gmail.com"
       GF_SMTP_FROM_NAME: "Grafana Alerts"
       GF_SMTP_SKIP_VERIFY: "false"
+
+  eddie-emqx:
+    image: emqx/emqx:5.8.6
+    ports:
+      - "1883:1883"
+      - "8883:8883"
+      - "18083:18083"
+    environment:
+      EMQX_AUTHENTICATION__1__DATABASE: eddie
+      EMQX_AUTHENTICATION__1__SERVER: db:5432
+      EMQX_AUTHENTICATION__1__PASSWORD: eddie
+      EMQX_AUTHORIZATION__SOURCES__1__DATABASE: eddie
+      EMQX_AUTHORIZATION__SOURCES__1__SERVER: db:5432
+      EMQX_AUTHORIZATION__SOURCES__1__PASSWORD: eddie
+    volumes:
+      - ./emqx.hocon:/opt/emqx/etc/base.hocon
+      - ./init-user.json:/tmp/init-user.json
 
 volumes:
   db-data:
