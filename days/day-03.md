@@ -251,6 +251,10 @@ You can run them all at once during development to compare, then settle on the r
 
 For the rest of this tutorial, you will build a Spring backend that consumes from the REST connector first (Days 5–8), and revisit Kafka when you explore event-driven patterns on Day 17.
 
+> [!NOTE]
+> The downloadable result code will include and enable all outbound connectors for all days.
+> If your system does not have enough resources to run all containers at once you should consider disabling them.
+
 ## Checkpoint
 
 - [ ] `docker compose ps` shows `db`, `kafka`, `rabbitmq`, and `eddie` as running
