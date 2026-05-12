@@ -208,7 +208,7 @@ Activities:
 
 Outcome: Reduced integration friction
 
-See: https://architecture.eddie.energy/framework/2-integrating/messages/cim/clientlibraries.html
+See: https://architecture.eddie.energy/framework/2-integrating/messages/cim/client-libraries.html
 
 
 ### Day 11 — Admin Console Mastery (effort: 4h+3h)
