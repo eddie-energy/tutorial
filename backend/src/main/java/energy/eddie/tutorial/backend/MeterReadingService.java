@@ -1,64 +1,56 @@
 package energy.eddie.tutorial.backend;
 
+import energy.eddie.cim.v1_04.vhd.VHDEnvelope;
 import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.ObjectMapper;
 
-import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 class MeterReadingService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MeterReadingService.class);
-
     private final MeterReadingRepository repository;
     private final EddieRestClient eddie;
-    private final ObjectMapper objectMapper;
 
-    MeterReadingService(MeterReadingRepository repository, EddieRestClient eddie, ObjectMapper objectMapper) {
+    MeterReadingService(MeterReadingRepository repository, EddieRestClient eddie) {
         this.repository = repository;
         this.eddie = eddie;
-        this.objectMapper = objectMapper;
     }
 
     @PostConstruct
     void init() {
-        eddie.rawDataMessages(message -> {
-            if (message.dataSourceInformation().regionConnectorId().equals("sim")) {
-                try {
-                    var simulationReading = objectMapper.readValue(message.rawPayload(), SimulationMeterReading.class);
-                    var interval = Duration.parse(simulationReading.meteringInterval());
-
-                    var meterReadings = new ArrayList<MeterReading>();
-
-                    var step = 1;
-                    for (var measurement : simulationReading.measurements()) {
-                        var timestamp = simulationReading
-                                .startDateTime()
-                                .plus(interval.multipliedBy(step++));
-
-                        meterReadings.add(new MeterReading(
-                                message.connectionId(),
-                                message.permissionId(),
-                                timestamp.toInstant(),
-                                BigDecimal.valueOf(measurement.value())));
-                    }
-
-                    repository.saveAll(meterReadings);
-                } catch (JacksonException e) {
-                    LOGGER.warn("Failed to read simulation meter reading.", e);
-                }
-            }
-        });
+        eddie.validatedHistoricalData(this::handleValidatedHistoricalData);
     }
 
     List<MeterReading> findLatestPerPermission(String userId) {
         return repository.findLatestPerPermission(userId);
+    }
+
+    private void handleValidatedHistoricalData(VHDEnvelope message) {
+        var connectionId = message.getMessageDocumentHeaderMetaInformationConnectionId();
+        var permissionId = message.getMessageDocumentHeaderMetaInformationPermissionId();
+
+        var meterReadings = new ArrayList<MeterReading>();
+
+        for (var series : message.getMarketDocument().getTimeSeries()) {
+            for (var period : series.getPeriods()) {
+                var start = OffsetDateTime.parse(period.getTimeInterval().getStart()).toInstant();
+                var duration = Duration.ofMillis(period.getResolution().getTimeInMillis(new Date()));
+
+                for (var point : period.getPoints()) {
+                    var timestamp = start.plus(duration.multipliedBy(point.getPosition() - 1));
+                    var quantity = point.getEnergyQuantityQuantity();
+
+                    var reading = new MeterReading(connectionId, permissionId, timestamp, quantity);
+                    meterReadings.add(reading);
+                }
+            }
+        }
+
+        repository.saveAll(meterReadings);
     }
 }

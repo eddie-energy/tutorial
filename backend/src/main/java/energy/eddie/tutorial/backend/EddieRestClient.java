@@ -1,5 +1,7 @@
 package energy.eddie.tutorial.backend;
 
+import energy.eddie.cim.agnostic.ConnectionStatusMessage;
+import energy.eddie.cim.v1_04.vhd.VHDEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -27,12 +29,12 @@ public class EddieRestClient {
                 .subscribe(consumer);
     }
 
-    public void rawDataMessages(Consumer<RawDataMessage> consumer) {
-        client.get().uri("/agnostic/raw-data-messages")
+    public void validatedHistoricalData(Consumer<VHDEnvelope> consumer) {
+        client.get().uri("/cim_1_04/validated-historical-data-md")
                 .accept(MediaType.TEXT_EVENT_STREAM)
                 .retrieve()
-                .bodyToFlux(RawDataMessage.class)
-                .doOnError(error -> LOGGER.error("Error while retrieving raw data messages", error))
+                .bodyToFlux(VHDEnvelope.class)
+                .doOnError(error -> LOGGER.error("Error while retrieving permission-md", error))
                 .retryWhen(Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(5)))
                 .subscribe(consumer);
     }
