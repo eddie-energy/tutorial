@@ -114,7 +114,7 @@ CREATE USER emqx WITH ENCRYPTED PASSWORD 'aiida';
 
 Download from the EDDIE repository into your aiida folder:
 
-- [emqx.hacon](https://github.com/eddie-energy/eddie/blob/main/aiida/docker/emqx/emqx.hocon)
+- [emqx.hocon](https://github.com/eddie-energy/eddie/blob/main/aiida/docker/emqx/emqx.hocon)
 - [init-user.json](https://github.com/eddie-energy/eddie/blob/main/aiida/docker/emqx/init-user.json)
 
 Adjust the password inside the `init-user.json` file to `aiida`
@@ -149,6 +149,8 @@ With its dependencies set up we now define AIIDA container.
     ports:
       - "8081:8080"
 ```
+
+<!-- TODO: Note on EDDIE and AIIDA version compatibility? -->
 
 Similar to our EDDIE instance, we will keep a separate `aiida/.env` file for its configuration.
 
@@ -361,7 +363,7 @@ Comprehensive documentation for AIIDA data needs can be found [here](https://arc
 With AIIDA, its region connector, and the data need set up, 
 we can finally try a full flow of requesting and receiving AIIDA near real-time data!
 
-## Requesting and receiving near real-time data
+## Step 5 — Requesting and receiving near real-time data
 
 With all our infrastructure in place, we can now start all containers in our environment.
 You might want to shut down all existing containers in advance to reload their configuration.
