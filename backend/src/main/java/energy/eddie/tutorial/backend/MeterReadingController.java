@@ -2,7 +2,6 @@ package energy.eddie.tutorial.backend;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,11 +28,11 @@ class MeterReadingController {
     }
 
     @GetMapping(value = "/api/readings", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<String> readings(
+    String readings(
             @AuthenticationPrincipal Jwt jwt,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant from,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant to,
             @RequestParam(defaultValue = "1 hour") String interval) {
-        return ResponseEntity.ok(meterReadingService.findByUserId(jwt.getSubject(), from, to, interval));
+        return meterReadingService.findByUserId(jwt.getSubject(), from, to, interval);
     }
 }

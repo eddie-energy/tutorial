@@ -1,11 +1,12 @@
 <h3>Readings</h3>
 
 <label>
-  Time range
-  <select [value]="selectedRange()" (change)="onRangeChange($event)">
+  <select [(ngModel)]="range" (change)="loadReadings()">
+    Time range
     <option value="day">Last 24 hours</option>
     <option value="week">Last 7 days</option>
     <option value="month">Last 30 days</option>
+    <option value="month">Last year</option>
   </select>
 </label>
 
