@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,10 @@ class MeterReadingService {
 
     List<MeterReading> findLatestPerPermission(String userId) {
         return repository.findLatestPerPermission(userId);
+    }
+
+    String findByUserId(String userId, Instant from, Instant to, String interval) {
+        return repository.findByUserId(userId, from, to, interval);
     }
 
     private void handleValidatedHistoricalData(VHDEnvelope message) {
