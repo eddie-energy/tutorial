@@ -150,38 +150,7 @@ class MeterReadingService {
 }
 ```
 
-By using the EDDIE client library we can get rid of our previous data transfer objects.
-Inside the `EddieRestClient` simply import the `ConnectionStatusMessage` class from the client library.
-
-```java [EddieRestClient.java]
-import energy.eddie.cim.agnostic.ConnectionStatusMessage;
-```
-
-In the `UserConnectionService` we need to replace `message.status()` with `message.status().name()`, 
-as it is now read as an enum.
-
-```java
-@PostConstruct
-void init() {
-    eddie.connectionStatusMessages(message -> {
-        var userConnection = repository
-                .findByPermissionId(message.permissionId())
-                .map(connection -> {
-                    connection.setStatus(message.status().name());
-                    return connection;
-                })
-                .orElse(new UserConnection(
-                        message.connectionId(),
-                        message.permissionId(),
-                        message.dataNeedId(),
-                        message.status().name()));
-        repository.save(userConnection);
-    });
-}
-```
-
-With that you can remove:
-- `ConnectionStatusMessage.java`
+By using the EDDIE client library we can get rid of some of our previous data transfer objects:
 - `RawDataMessage.java`
 - `SimulationMeterReading.java`
 
