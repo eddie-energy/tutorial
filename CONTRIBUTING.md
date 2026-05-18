@@ -91,3 +91,14 @@ class UserController {
 ````
 
 Refer to Java files by file name when the file is first created and by class name if it already exists.
+
+## Code
+
+There are a few recommendations for the code produced in the tutorial.
+
+- Use as little code as possible but as much as necessary
+- Prefer adding code over changing code
+- Prefer new files for new features
+- Avoid features unique to a language or framework
+- No visual polish
+- No unit tests
