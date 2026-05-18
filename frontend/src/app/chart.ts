@@ -1,47 +1,40 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
 import ApexCharts from 'apexcharts';
 import { keycloak } from '../main';
+import { FormsModule } from '@angular/forms';
 
-type MeterReadingSeries = {
-  name: string;
-  data: [string, number][];
+type Range = 'day' | 'week' | 'month' | 'year';
+type Readings = { name: string; data: [string, number][] }[];
+
+const RANGES = {
+  day: { days: 1, interval: '15 minutes' },
+  week: { days: 7, interval: '1 hour' },
+  month: { days: 30, interval: '1 day' },
+  year: { days: 365, interval: '1 day' },
 };
-
-type RangeKey = 'day' | 'week' | 'month';
-
-const REFRESH_INTERVAL_MS = 60_000;
 
 @Component({
   selector: 'app-chart',
   standalone: true,
+  imports: [FormsModule],
   templateUrl: './chart.html',
 })
-export class Chart implements OnInit, AfterViewInit, OnDestroy {
-  selectedRange = signal<RangeKey>('week');
+export class Chart implements OnInit, AfterViewInit {
   loading = signal(true);
   error = signal('');
-  series = signal<MeterReadingSeries[]>([]);
+  series = signal<Readings>([]);
+
+  range: Range = 'week';
 
   @ViewChild('chart')
   private readonly chartElement!: ElementRef;
 
   private chart?: ApexCharts;
-  private refreshInterval?: number;
 
   ngOnInit() {
     void this.loadReadings();
 
-    this.refreshInterval = globalThis.setInterval(() => {
-      void this.loadReadings();
-    }, REFRESH_INTERVAL_MS);
+    globalThis.setInterval(() => this.loadReadings(), 10000);
   }
 
   ngAfterViewInit() {
@@ -50,7 +43,7 @@ export class Chart implements OnInit, AfterViewInit, OnDestroy {
         type: 'line',
         height: 350,
       },
-      series: this.series().map(({ name, data }) => ({ name, data })),
+      series: this.series(),
       xaxis: {
         type: 'datetime',
       },
@@ -67,49 +60,16 @@ export class Chart implements OnInit, AfterViewInit, OnDestroy {
     this.chart.render();
   }
 
-  ngOnDestroy() {
-    if (this.refreshInterval !== undefined) {
-      globalThis.clearInterval(this.refreshInterval);
-    }
-
-    this.chart?.destroy();
-  }
-
-  onRangeChange(event: Event) {
-    const target = event.target;
-
-    if (!(target instanceof HTMLSelectElement)) {
-      return;
-    }
-
-    if (target.value === 'day' || target.value === 'week' || target.value === 'month') {
-      this.selectedRange.set(target.value);
-      void this.loadReadings();
-    }
-  }
-
   async loadReadings() {
     this.loading.set(true);
     this.error.set('');
 
     const to = new Date();
     const from = new Date(to);
-    let interval = '1 hour';
 
-    if (this.selectedRange() === 'day') {
-      from.setDate(from.getDate() - 1);
-      interval = '15 minutes';
-    }
+    const { days, interval } = RANGES[this.range];
 
-    if (this.selectedRange() === 'week') {
-      from.setDate(from.getDate() - 7);
-      interval = '1 hour';
-    }
-
-    if (this.selectedRange() === 'month') {
-      from.setDate(from.getDate() - 30);
-      interval = '1 day';
-    }
+    from.setDate(from.getDate() - days);
 
     const params = new URLSearchParams({
       from: from.toISOString(),
@@ -128,14 +88,10 @@ export class Chart implements OnInit, AfterViewInit, OnDestroy {
         throw new Error(`Readings request failed with status ${response.status}`);
       }
 
-      const series = (await response.json()) as MeterReadingSeries[];
-
+      const series = await response.json();
       this.series.set(series);
 
-      await this.chart?.updateSeries(
-        series.map(({ name, data }) => ({ name, data })),
-        true,
-      );
+      await this.chart?.updateSeries(series, true);
     } catch (err) {
       console.error(err);
       this.error.set('Unable to load readings right now.');
