@@ -1,8 +1,11 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal } from '@angular/core';
+import { Chart } from './chart';
 import { keycloak } from '../main';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [Chart],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.html',
   styleUrl: './app.css',
