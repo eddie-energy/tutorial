@@ -1,6 +1,5 @@
 package energy.eddie.tutorial.backend;
 
-import energy.eddie.cim.agnostic.ConnectionStatusMessage;
 import energy.eddie.cim.v1_04.vhd.VHDEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

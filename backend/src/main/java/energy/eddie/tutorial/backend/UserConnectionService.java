@@ -21,14 +21,14 @@ class UserConnectionService {
             var userConnection = repository
                     .findByPermissionId(message.permissionId())
                     .map(connection -> {
-                        connection.setStatus(message.status().name());
+                        connection.setStatus(message.status());
                         return connection;
                     })
                     .orElse(new UserConnection(
                             message.connectionId(),
                             message.permissionId(),
                             message.dataNeedId(),
-                            message.status().name()));
+                            message.status()));
             repository.save(userConnection);
         });
     }
