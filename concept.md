@@ -5,15 +5,15 @@ Learning pathway toward building a Pet-Shop-style sample application
 
 ## 1. Background and Purpose
 
-The EDDIE Framework enables standardized access, orchestration, consent handling, and
-distribution of energy data across heterogeneous regional infrastructures. While powerful,
-its breadth can create a steep learning curve for new solution developers.
-This 21-day tutorial series introduces the framework through daily 1–2 hour learning
-slots, guiding participants from initial setup to a fully functional reference application
+The EDDIE Framework enables standardised access, orchestration, consent handling, and
+distribution of energy data across heterogeneous regional infrastructures.
+While powerful, its breadth can create a steep learning curve for new solution developers.
+This 21-day tutorial series introduces the framework through daily 1–2 hour learning slots,
+guiding participants from initial setup to a fully functional reference application
 comparable in spirit to the classic Java Pet Shop — a realistic yet pedagogical system that
 demonstrates end-to-end platform usage.
 
-The tutorial emphasizes:
+The tutorial emphasises:
 
 - Incremental learning
 - Immediate hands-on validation
@@ -36,7 +36,7 @@ Prerequisites:
 
 - Basic Java and web development knowledge
 - Familiarity with REST APIs
-- Basic understanding of containerized deployments
+- Basic understanding of containerised deployments
 
 ## 3. Learning Approach
 
@@ -44,7 +44,7 @@ The program follows four progressive phases:
 
 - Foundation: Installation, connectors, data needs
 - Integration: Consent lifecycle, outbound channels, process orchestration
-- Application Development: Authentication, persistence, UI, visualization
+- Application Development: Authentication, persistence, UI, visualisation
 - Advanced & Operational: Real-time data, observability, IoT, packaging
 
 Each day contains:
@@ -177,7 +177,7 @@ Activities:
 
 Outcome: Robust temporal data handling
 
-Commented [RM2]: No way to consistently test -> explain that and how it works
+Commented [RM2]: No way to consistently test → explain that and how it works
 
 ### Day 9 — Observability & Logging (effort: 8h)
 
@@ -229,7 +229,7 @@ See: https://architecture.eddie.energy/framework/1-running/admin-console.html
 
 ### Day 12 — Time-Series Visualization (effort: 4h based on ExampleApp usage)
 
-Goal: User value realization
+Goal: User value realisation
 
 Activities:
 
@@ -238,7 +238,7 @@ Activities:
 - Implement time range selection
 - Implement dynamic refresh
 
-Outcome: Interactive visualization layer
+Outcome: Interactive visualisation layer
 
 ### Day 13 — Carbon & Mix Enrichment (effort: 16h?)
 
@@ -251,7 +251,7 @@ Activities:
 - Overlay enriched data in charts
 - Demonstrate cross-domain analytics
 
-Outcome: Context-aware visualization
+Outcome: Context-aware visualisation
 
 ### Day 14 — Real-Time Data via AIIDA (effort: 12-16h)
 
@@ -276,8 +276,8 @@ Activities:
 
 - Subscribe to AIIDA data
 - Store incremental updates
-- Visualize near real-time curves
-- Analyze adapter semantics
+- Visualise near real-time curves
+- Analyse adapter semantics
 - Build virtual time series
 
 Outcome: Continuous data experience
@@ -291,7 +291,7 @@ Activities:
 - Send IoT commands / messages to AIIDA
 - Explore actuator scenarios
 - Implement command flow example
-- Validate acknowledgment patterns
+- Validate acknowledgement patterns
 
 Outcome: Active device interaction understanding
 
@@ -330,7 +330,7 @@ Goal: Harden integrations
 Activities:
 
 - Token propagation patterns
-- Least privilege consent modeling
+- Least privilege consent modelling
 - Secure outbound connectors
 - Secrets management patterns
 
@@ -372,7 +372,7 @@ Participants completing the tutorial will:
 - Understand consent-driven data orchestration
 - Integrate multi-regional connectors
 - Build authenticated energy applications
-- Visualize historical and real-time data
+- Visualise historical and real-time data
 - Apply operational best practices
 - Extend the framework for domain-specific solutions
 
@@ -386,7 +386,7 @@ Participants completing the tutorial will:
 
 ## 7. Next Steps
 
-- Produce tutorial artifacts (videos, repos, scripts)
+- Produce tutorial artefacts (videos, repos, scripts)
 - Create automated environment bootstrap
 - Define evaluation exercises
 - Prepare facilitator guide

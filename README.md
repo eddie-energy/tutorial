@@ -94,7 +94,7 @@ The tutorial expects you to have:
 
 - Basic Java and web development knowledge
 - Familiarity with REST APIs
-- Basic understanding of containerized deployments
+- Basic understanding of containerised deployments
 
 You will need the following software installed on your machine:
 
