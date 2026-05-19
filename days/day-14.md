@@ -65,6 +65,7 @@ Timescale is a PostgreSQL extension specifically designed for time series data.
       POSTGRES_PASSWORD: aiida
       POSTGRES_DB: aiida
     volumes:
+      - aiida-db-data:/var/lib/postgresql/data
       - ./db.sql:/docker-entrypoint-initdb.d/db.sql:ro
     restart: always
     healthcheck:
@@ -103,6 +104,7 @@ CREATE USER emqx WITH ENCRYPTED PASSWORD 'aiida';
       EMQX_AUTHORIZATION__SOURCES__1__PASSWORD: aiida
     restart: always
     volumes:
+      - aiida-emqx-data:/opt/emqx/data
       - ./emqx.hocon:/opt/emqx/etc/base.hocon:ro
       - ./init-user.json:/opt/emqx/data/init-user.json:ro
     healthcheck:
@@ -148,6 +150,14 @@ With its dependencies set up we now define AIIDA container.
       - .env
     ports:
       - "8081:8080"
+```
+
+To complete our Docker Compose setup, we also need to define the two volumes for the database and broker.
+
+```yaml [aiida/docker-compose.yml]
+volumes:
+  aiida-db-data:
+  aiida-emqx-data:
 ```
 
 <!-- TODO: Note on EDDIE and AIIDA version compatibility? -->
