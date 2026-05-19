@@ -37,6 +37,8 @@ services:
       POSTGRES_USER: eddie
       POSTGRES_PASSWORD: eddie
       POSTGRES_DB: eddie
+    volumes:
+      - db-data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U eddie" ]
       interval: 10s
@@ -54,6 +56,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+volumes:
+  db-data:
 ```
 
 ## Step 3 — Write the environment file
