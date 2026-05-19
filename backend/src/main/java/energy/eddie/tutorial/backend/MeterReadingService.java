@@ -1,9 +1,12 @@
 package energy.eddie.tutorial.backend;
 
 import energy.eddie.cim.v1_04.vhd.VHDEnvelope;
+import energy.eddie.cim.v1_12.rtd.QuantityTypeKind;
+import energy.eddie.cim.v1_12.rtd.RTDEnvelope;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -25,6 +28,7 @@ class MeterReadingService {
     @PostConstruct
     void init() {
         eddie.validatedHistoricalData(this::handleValidatedHistoricalData);
+        eddie.nearRealTimeData(this::handleNearRealTimeData);
     }
 
     List<MeterReading> findLatestPerPermission(String userId) {
@@ -52,6 +56,29 @@ class MeterReadingService {
 
                     var reading = new MeterReading(connectionId, permissionId, timestamp, quantity);
                     meterReadings.add(reading);
+                }
+            }
+        }
+
+        repository.saveAll(meterReadings);
+    }
+
+    private void handleNearRealTimeData(RTDEnvelope message) {
+        var meta = message.getMessageDocumentHeader().getMetaInformation();
+        var connectionId = meta.getConnectionId();
+        var permissionId = meta.getRequestPermissionId();
+
+        var meterReadings = new ArrayList<MeterReading>();
+
+        for (var series : message.getMarketDocument().getTimeSeries()) {
+            var timestamp = series.getDateAndOrTimeDateTime().toInstant();
+
+            for (var quantity : series.getQuantities()) {
+                if (quantity.getType() == QuantityTypeKind.TOTAL_ACTIVE_ENERGY_CONSUMED_KWH) {
+                    var value = quantity.getQuantity().multiply(BigDecimal.valueOf(1000));
+                    var reading = new MeterReading(connectionId, permissionId, timestamp, value);
+                    meterReadings.add(reading);
+                    break;
                 }
             }
         }
