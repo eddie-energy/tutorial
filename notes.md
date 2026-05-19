@@ -1,16 +1,5 @@
 [Concept Note](https://fhooe.sharepoint.com/:w:/r/teams/tm-EDDIE--FHO-fue/Freigegebene%20Dokumente/General/EDDIE/My%20first%2021%20days%20with%20EDDIE.docx?d=w64b12c62bd844a94ae838b9c567e7948&csf=1&web=1&e=8JZCeI)
 
-## Tasks 📝
-
-- [x] Check state of example app
-- [x] Establish timeline and tasks
-- [ ] Define scope of the example app
-- [ ] Start work in the example app repo while making notes for the tutorial
-- [ ] Which tasks can we delegate
-- [ ] Set up repo and define structure
-    - [ ] README
-    - [ ] CONTRIBUTING
-
 ## Questions ❓
 
 ### What web framework?
@@ -64,19 +53,19 @@ Not placing it in `eddie-energy/eddie` as it creates a lot of noise.
 |-----|--------------------------------------------------------|-------|-------|------|
 |     | Preparation, Research, Repo                            | 8h    | ✔     |      |
 | 1   | Set up EDDIE with Simulation Connector                 | 5h    | ✔     | ✔    |
-| 2   | Set up real Region Connectors                          | 4h    |       |      |
-| 3   | Explain Outbound Connectors                            | 5h    |       |      |
-| 4   | Explain permission life-cycle, terminate via API       | 3h    |       |      |
-| 5   | Set up application (Spring, Angular, Register, Button) | 12h   |       |      |
-| 6   | Map connection ID to user and request AP + VHD         | 4h    |       |      |
-| 7   | Persist data and explain raw data                      | 8h    |       |      |
+| 2   | Set up real Region Connectors                          | 4h    |       | ~    |
+| 3   | Explain Outbound Connectors                            | 5h    | ✔     | ✔    |
+| 4   | Explain permission life-cycle, terminate via API       | 3h    | ✔     | ✔    |
+| 5   | Set up application (Spring, Angular, Register, Button) | 12h   | ✔     | ✔    |
+| 6   | Map connection ID to user and request AP + VHD         | 4h    | ✔     | ✔    |
+| 7   | Persist data and explain raw data                      | 8h    | ✔     | ✔    |
 | 8   | Future data, find gaps, retransmit                     | 6h    |       |      |
-| 9   | OpenTelemetry logging and tracing                      | 8h    |       |      |
-| 10  | CIM client library                                     | 6h    |       |      |
+| 9   | OpenTelemetry logging and tracing                      | 8h    | ✔     | ✔    |
+| 10  | CIM client library                                     | 6h    | ✔     | ✔    |
 | 11  | Admin Console                                          | 8h    |       |      |
-| 12  | Time series real-time chart                            | 4h    |       |      |
+| 12  | Time series real-time chart                            | 4h    | ✔     | ✔    |
 | 13  | Enrich with carbon intensity from external             | 8h?   |       |      |
-| 14  | Set up AIIDA with DN, explain data sources             | 16h   |       |      |
+| 14  | Set up AIIDA with DN, explain data sources             | 16h   | ✔     | ✔    |
 | 15  | Consume, persist, visualize real-time data             | 5h    |       |      |
 | 16  | Send IoT commands to AIIDA -> inbound / outbound       | 20h   |       |      |
 | 17  | React to domain events, explain event-driven           | 8h    |       |      |
@@ -84,9 +73,6 @@ Not placing it in `eddie-energy/eddie` as it creates a lot of noise.
 | 19  | Explore security                                       | 8h??  |       |      |
 | 20  | Package and deploy                                     | 6h    |       |      |
 | 21  | Summary and where to go next                           | 8h    |       |      |
-
-⏰ About **180h** ~ 4.5 weeks
-🚩 **24. April** -> around 20 work days
 
 ## Goals 🎯
 

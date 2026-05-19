@@ -78,6 +78,7 @@ Current published day guides:
 | [Day 7](days/day-07.md)  | Process raw data to store meter readings per user                           |
 | [Day 9](days/day-09.md)  | Integrate OpenTelemetry for observability into EDDIE                        |
 | [Day 10](days/day-10.md) | Use the EDDIE client library to retrieve data from any region in one format |
+| [Day 12](days/day-12.md) | Visualise time series data                                                  |
 | [Day 14](days/day-14.md) | Set up AIIDA and use it to connect near real-time data                      |
 
 The broader learning path follows four phases:
