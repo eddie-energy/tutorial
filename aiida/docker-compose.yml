@@ -9,6 +9,7 @@ services:
       POSTGRES_PASSWORD: aiida
       POSTGRES_DB: aiida
     volumes:
+      - aiida-db-data:/var/lib/postgresql/data
       - ./db.sql:/docker-entrypoint-initdb.d/db.sql:ro
     restart: always
     healthcheck:
@@ -35,6 +36,7 @@ services:
       EMQX_AUTHORIZATION__SOURCES__1__PASSWORD: aiida
     restart: always
     volumes:
+      - aiida-emqx-data:/opt/emqx/data
       - ./emqx.hocon:/opt/emqx/etc/base.hocon:ro
       - ./init-user.json:/opt/emqx/data/init-user.json:ro
     healthcheck:
@@ -58,3 +60,7 @@ services:
     # access "eddie" container as "localhost" via host network
     extra_hosts:
       - "localhost:host-gateway"
+
+volumes:
+  aiida-db-data:
+  aiida-emqx-data:
