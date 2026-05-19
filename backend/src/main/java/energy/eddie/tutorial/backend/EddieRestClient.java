@@ -1,5 +1,6 @@
 package energy.eddie.tutorial.backend;
 
+import energy.eddie.cim.v1_12.rtd.RTDEnvelope;
 import energy.eddie.cim.v1_04.vhd.VHDEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,16 @@ public class EddieRestClient {
                 .retrieve()
                 .bodyToFlux(VHDEnvelope.class)
                 .doOnError(error -> LOGGER.error("Error while retrieving permission-md", error))
+                .retryWhen(Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(5)))
+                .subscribe(consumer);
+    }
+
+    public void nearRealTimeData(Consumer<RTDEnvelope> consumer) {
+        client.get().uri("/cim_1_12/near-real-time-data-md")
+                .accept(MediaType.TEXT_EVENT_STREAM)
+                .retrieve()
+                .bodyToFlux(RTDEnvelope.class)
+                .doOnError(error -> LOGGER.error("Error while retrieving near real-time data", error))
                 .retryWhen(Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(5)))
                 .subscribe(consumer);
     }
