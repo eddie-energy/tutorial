@@ -18,6 +18,25 @@ This allows you to easily update the guide or code of a specific day without swi
 git worktree add day-01 day-01
 ```
 
+Day branches are based on another but separate from the main branch.
+This means that each day branch adds the commits relevant to that branch to the commits of the previous day.
+If a change is made to a prior branch, all following branches are to be rebased on their previous branch, ensuring consistency.
+For example, if you made a change to day 5, you need to rebase day 6 on day 5 and so on.
+
+```shell
+git checkout day-06
+git rebase day-05
+
+git checkout day-07
+git rebase day-06
+
+# ...
+
+git push --all --force-with-lease
+```
+
+Squashing commits of a specific day can reduce the number of rebase steps needed.
+
 ## Change requests
 
 If you want to suggest changes to the guide, please open a pull request against the `main` branch.
