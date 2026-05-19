@@ -265,8 +265,16 @@ so we will add one to our root `docker-compose.yml`.
       EMQX_AUTHORIZATION__SOURCES__1__SERVER: db:5432
       EMQX_AUTHORIZATION__SOURCES__1__PASSWORD: eddie
     volumes:
+      - emqx-data:/opt/emqx/data
       - ./emqx.hocon:/opt/emqx/etc/base.hocon:ro
       - ./init-user.json:/opt/emqx/data/init-user.json:ro
+```
+
+Remember to also add the `emqx-data` volume to the volume definitions at the end of the file.
+
+```yaml
+volumes:
+  emqx-data:
 ```
 
 Similar to AIIDA's MQTT broker, EDDIE's instance also adds some configuration for authentication.
