@@ -31,8 +31,17 @@ keycloak:
     KC_BOOTSTRAP_ADMIN_USERNAME: admin
     KC_BOOTSTRAP_ADMIN_PASSWORD: admin
   volumes:
+    - keycloak-data:/opt/keycloak/data
     - ./keycloak.json:/opt/keycloak/data/import/realm.json:ro
   command: start-dev --import-realm
+```
+
+Remember to add the `keycloak-data` volume to the volume definitions at the end of the file.
+
+```yaml
+volumes:
+  db-data:
+  keycloak-data:
 ```
 
 To avoid manual configuration via the Keycloak UI, we will create a realm import file and mount it into the container.
