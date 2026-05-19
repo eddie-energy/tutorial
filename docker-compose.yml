@@ -94,9 +94,11 @@ services:
       EMQX_AUTHORIZATION__SOURCES__1__SERVER: db:5432
       EMQX_AUTHORIZATION__SOURCES__1__PASSWORD: eddie
     volumes:
+      - emqx-data:/opt/emqx/data
       - ./emqx.hocon:/opt/emqx/etc/base.hocon:ro
       - ./init-user.json:/opt/emqx/data/init-user.json:ro
 
 volumes:
   db-data:
   keycloak-data:
+  emqx-data:
