@@ -1,80 +1,77 @@
-import { AfterViewInit, Component, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
-import ApexCharts from 'apexcharts';
+import { Component, OnInit } from '@angular/core';
 import { keycloak } from '../main';
 import { FormsModule } from '@angular/forms';
-
-type Range = 'day' | 'week' | 'month' | 'year';
-type Readings = { name: string; data: [string, number][] }[];
-
-const RANGES = {
-  day: { days: 1, interval: '15 minutes' },
-  week: { days: 7, interval: '1 hour' },
-  month: { days: 30, interval: '1 day' },
-  year: { days: 365, interval: '1 day' },
-};
+import { ApexChart, ApexXAxis, NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-chart',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgApexchartsModule],
   templateUrl: './chart.html',
 })
-export class Chart implements OnInit, AfterViewInit {
-  loading = signal(true);
-  error = signal('');
-  series = signal<Readings>([]);
+export class Chart implements OnInit {
+  loading = true;
+  error = '';
+  series = [];
+  from = '';
+  to = '';
+  interval = '1 hour';
 
-  range: Range = 'week';
-
-  @ViewChild('chart')
-  private readonly chartElement!: ElementRef;
-
-  private chart?: ApexCharts;
+  chart: ApexChart = {
+    type: 'line',
+    height: 350,
+    zoom: {
+      type: 'x',
+      enabled: true,
+      autoScaleYaxis: true,
+    },
+    animations: {
+      enabled: false,
+    },
+  };
+  xaxis: ApexXAxis = {
+    type: 'datetime',
+  };
+  yaxis = {
+    title: {
+      text: 'Wh',
+    },
+  };
+  tooltip: any = {
+    x: {
+      format: 'dd MMM yyyy HH:mm',
+    },
+    y: {
+      formatter(value: number) {
+        return `${value} Wh`;
+      },
+    },
+  };
+  noData = {
+    text: 'No consumption data found.',
+  };
 
   ngOnInit() {
+    const to = new Date();
+    const from = new Date(to);
+
+    from.setDate(from.getDate() - 7);
+
+    this.from = from.toISOString().slice(0, 16);
+    this.to = to.toISOString().slice(0, 16);
+
     void this.loadReadings();
 
     globalThis.setInterval(() => this.loadReadings(), 10000);
   }
 
-  ngAfterViewInit() {
-    this.chart = new ApexCharts(this.chartElement.nativeElement, {
-      chart: {
-        type: 'line',
-        height: 350,
-      },
-      series: this.series(),
-      xaxis: {
-        type: 'datetime',
-      },
-      yaxis: {
-        title: {
-          text: 'Wh',
-        },
-      },
-      noData: {
-        text: 'No readings found.',
-      },
-    });
-
-    this.chart.render();
-  }
-
   async loadReadings() {
-    this.loading.set(true);
-    this.error.set('');
-
-    const to = new Date();
-    const from = new Date(to);
-
-    const { days, interval } = RANGES[this.range];
-
-    from.setDate(from.getDate() - days);
+    this.error = '';
 
     const params = new URLSearchParams({
-      from: from.toISOString(),
-      to: to.toISOString(),
-      interval,
+      from: new Date(this.from).toISOString(),
+      to: new Date(this.to).toISOString(),
+      interval: this.interval,
     });
 
     try {
@@ -88,15 +85,12 @@ export class Chart implements OnInit, AfterViewInit {
         throw new Error(`Readings request failed with status ${response.status}`);
       }
 
-      const series = await response.json();
-      this.series.set(series);
-
-      await this.chart?.updateSeries(series, true);
+      this.series = await response.json();
     } catch (err) {
       console.error(err);
-      this.error.set('Unable to load readings right now.');
+      this.error = 'Unable to load readings right now.';
     } finally {
-      this.loading.set(false);
+      this.loading = false;
     }
   }
 }

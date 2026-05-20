@@ -1,21 +1,39 @@
-<h3>Readings</h3>
+<h3>Consumption</h3>
 
 <label>
-  <select [(ngModel)]="range" (change)="loadReadings()">
-    Time range
-    <option value="day">Last 24 hours</option>
-    <option value="week">Last 7 days</option>
-    <option value="month">Last 30 days</option>
-    <option value="month">Last year</option>
+  From
+  <input type="datetime-local" [(ngModel)]="from" (change)="loadReadings()" />
+</label>
+
+<label>
+  To
+  <input type="datetime-local" [(ngModel)]="to" (change)="loadReadings()" />
+</label>
+
+<label>
+  Interval
+  <select [(ngModel)]="interval" (change)="loadReadings()">
+    <option value="5 seconds">5 seconds</option>
+    <option value="1 minute">1 minute</option>
+    <option value="15 minutes">15 minutes</option>
+    <option value="1 hour">1 hour</option>
+    <option value="1 day">1 day</option>
   </select>
 </label>
 
-@if (loading()) {
+@if (loading) {
   <p>Loading readings...</p>
 }
 
-@if (error()) {
-  <p>{{ error() }}</p>
+@if (error) {
+  <p>{{ error }}</p>
 }
 
-<div #chart></div>
+<apx-chart
+  [series]="series"
+  [chart]="chart"
+  [xaxis]="xaxis"
+  [yaxis]="yaxis"
+  [tooltip]="tooltip"
+  [noData]="noData"
+/>
