@@ -80,6 +80,7 @@ Current published day guides:
 | [Day 10](days/day-10.md) | Use the EDDIE client library to retrieve data from any region in one format |
 | [Day 12](days/day-12.md) | Visualise time series data                                                  |
 | [Day 14](days/day-14.md) | Set up AIIDA and use it to connect near real-time data                      |
+| [Day 15](days/day-15.md) | Persist and display near real-time consumption in the application           |
 
 The broader learning path follows four phases:
 
