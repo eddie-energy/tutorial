@@ -26,13 +26,14 @@ On Day 7 we added a query for the latest reading per permission to confirm our a
 The actual goal is to display meter readings in a chart.
 
 For a chart we need many data points over a selected period.
-We could load all rows into Angular and group them there, 
+We could load all rows into Angular and group them there,
 but that would move unnecessary work to the browser and send more data than needed.
 Instead, we will prepare chart-ready series in PostgreSQL and return them in one request.
 
 Inside the `MeterReadingRepository` add a new query method.
-It filters by user and optional date range, groups readings into buckets using `date_bin`, 
+It filters by user and optional date range, groups readings into buckets using `date_bin`,
 aggregates the quantity per bucket, and finally returns JSON in the shape ApexCharts expects.
+By passing the interval as a request parameter, the same query can aggregate views of different granularities.
 
 ```java [MeterReadingRepository.java]
 @Query(value = """
@@ -144,7 +145,7 @@ Install it in the `frontend` folder:
 
 ```shell
 cd frontend
-npm install apexcharts
+npm install apexcharts ng-apexcharts
 ```
 
 ## Step 4 — Creating a chart component
@@ -153,83 +154,80 @@ We will keep the chart logic in its own Angular component.
 Create the file `chart.ts`.
 
 ```ts [chart.ts]
-import {AfterViewInit, Component, ElementRef, OnInit, signal, ViewChild} from '@angular/core';
-import ApexCharts from 'apexcharts';
-import {keycloak} from '../main';
-import {FormsModule} from '@angular/forms';
-
-type Range = 'day' | 'week' | 'month' | 'year';
-type Readings = { name: string; data: [string, number][] }[];
-
-const RANGES = {
-    day: {days: 1, interval: '15 minutes'},
-    week: {days: 7, interval: '1 hour'},
-    month: {days: 30, interval: '1 day'},
-    year: {days: 365, interval: '1 day'},
-};
+import { Component, OnInit } from '@angular/core';
+import { keycloak } from '../main';
+import { FormsModule } from '@angular/forms';
+import { ApexChart, ApexXAxis, NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
     selector: 'app-chart',
     standalone: true,
-    imports: [FormsModule],
+    imports: [FormsModule, NgApexchartsModule],
     templateUrl: './chart.html',
 })
-export class Chart implements OnInit, AfterViewInit {
-    loading = signal(true);
-    error = signal('');
-    series = signal<Readings>([]);
+export class Chart implements OnInit {
+    loading = true;
+    error = '';
+    series = [];
+    from = '';
+    to = '';
+    interval = '1 hour';
 
-    range: Range = 'week';
-
-    @ViewChild('chart')
-    private readonly chartElement!: ElementRef;
-
-    private chart?: ApexCharts;
+    chart: ApexChart = {
+        type: 'line',
+        height: 350,
+        zoom: {
+            type: 'x',
+            enabled: true,
+            autoScaleYaxis: true,
+        },
+        animations: {
+            enabled: false,
+        },
+    };
+    xaxis: ApexXAxis = {
+        type: 'datetime',
+    };
+    yaxis = {
+        title: {
+            text: 'Wh',
+        },
+    };
+    tooltip: any = {
+        x: {
+            format: 'dd MMM yyyy HH:mm',
+        },
+        y: {
+            formatter(value: number) {
+                return `${value} Wh`;
+            },
+        },
+    };
+    noData = {
+        text: 'No consumption data found.',
+    };
 
     ngOnInit() {
+        const to = new Date();
+        const from = new Date(to);
+
+        from.setDate(from.getDate() - 7);
+
+        this.from = from.toISOString().slice(0, 16);
+        this.to = to.toISOString().slice(0, 16);
+
         void this.loadReadings();
 
         globalThis.setInterval(() => this.loadReadings(), 10000);
     }
 
-    ngAfterViewInit() {
-        this.chart = new ApexCharts(this.chartElement.nativeElement, {
-            chart: {
-                type: 'line',
-                height: 350,
-            },
-            series: this.series(),
-            xaxis: {
-                type: 'datetime',
-            },
-            yaxis: {
-                title: {
-                    text: 'Wh',
-                },
-            },
-            noData: {
-                text: 'No readings found.',
-            },
-        });
-
-        this.chart.render();
-    }
-
     async loadReadings() {
-        this.loading.set(true);
-        this.error.set('');
-
-        const to = new Date();
-        const from = new Date(to);
-
-        const {days, interval} = RANGES[this.range];
-
-        from.setDate(from.getDate() - days);
+        this.error = '';
 
         const params = new URLSearchParams({
-            from: from.toISOString(),
-            to: to.toISOString(),
-            interval,
+            from: new Date(this.from).toISOString(),
+            to: new Date(this.to).toISOString(),
+            interval: this.interval,
         });
 
         try {
@@ -243,54 +241,70 @@ export class Chart implements OnInit, AfterViewInit {
                 throw new Error(`Readings request failed with status ${response.status}`);
             }
 
-            const series = await response.json();
-            this.series.set(series);
-
-            await this.chart?.updateSeries(series, true);
+            this.series = await response.json();
         } catch (err) {
             console.error(err);
-            this.error.set('Unable to load readings right now.');
+            this.error = 'Unable to load readings right now.';
         } finally {
-            this.loading.set(false);
+            this.loading = false;
         }
     }
 }
 ```
 
 Now add the template in `chart.html`.
-It renders a heading, a **Time range** selector, loading and error messages, 
+It renders **From**, **To**, and **Interval** controls, loading and error messages,
 and the container where ApexCharts mounts itself.
 
 ```html [chart.html]
-<h3>Readings</h3>
+<h3>Consumption</h3>
 
 <label>
-    <select [(ngModel)]="range" (change)="loadReadings()">
-        Time range
-        <option value="day">Last 24 hours</option>
-        <option value="week">Last 7 days</option>
-        <option value="month">Last 30 days</option>
-        <option value="month">Last year</option>
+    From
+    <input type="datetime-local" [(ngModel)]="from" (change)="loadReadings()" />
+</label>
+
+<label>
+    To
+    <input type="datetime-local" [(ngModel)]="to" (change)="loadReadings()" />
+</label>
+
+<label>
+    Interval
+    <select [(ngModel)]="interval" (change)="loadReadings()">
+        <option value="5 seconds">5 seconds</option>
+        <option value="1 minute">1 minute</option>
+        <option value="15 minutes">15 minutes</option>
+        <option value="1 hour">1 hour</option>
+        <option value="1 day">1 day</option>
     </select>
 </label>
 
-@if (loading()) {
+@if (loading) {
 <p>Loading readings...</p>
 }
 
-@if (error()) {
-<p>{{ error() }}</p>
+@if (error) {
+<p>{{ error }}</p>
 }
 
-<div #chart></div>
+<apx-chart
+        [series]="series"
+        [chart]="chart"
+        [xaxis]="xaxis"
+        [yaxis]="yaxis"
+        [tooltip]="tooltip"
+        [noData]="noData"
+/>
 ```
 
 This component now does four things:
 
-1. It selects a time window.
-2. It requests aggregated readings from the backend.
-3. It updates the chart when new data arrives.
-4. It refreshes automatically every ten seconds.
+1. It selects a time window using **From** and **To**.
+2. It selects an aggregation interval.
+3. It requests aggregated readings from the backend.
+4. It lets the user zoom into the loaded data directly in the chart.
+5. It refreshes automatically every ten seconds.
 
 ## Step 5 — Rendering the chart in the app
 
@@ -319,18 +333,20 @@ Then render it near the top of `app.html`.
 
 <h2>Hello, {{ name() }}!</h2>
 
-<app-chart/>
+<app-chart />
 ```
 
 When you reload the frontend, and you have meter readings stored for the current user,
 the **Readings** section should now show one line per permission.
-Changing **Time range** should request a different aggregation window from the backend.
+Changing **From**, **To**, or **Interval** should request a different aggregation window from the backend.
+For a closer inspection of the loaded result, you can also drag inside the chart to zoom.
 
 ## Checkpoint
 
 - Your backend returns chart-ready readings in one request
 - Your frontend renders readings per permission using ApexCharts
-- The user can change the displayed time range and the chart refreshes automatically
+- The user can change **From**, **To**, and **Interval**, including fine intervals such as one minute or five seconds
+- The chart supports zooming and refreshes automatically
 
 ## What's next
 
