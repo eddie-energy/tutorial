@@ -181,9 +181,21 @@ KEYCLOAK_REALM=tutorial-realm
 KEYCLOAK_CLIENT=tutorial-client
 ```
 
+For our particular setup of testing AIIDA and EDDIE locally, we will set another variable in `aiida/.env`.
+
+```dotenv [aiida/.env]
+AIIDA_HANDSHAKE_LOCALHOST_REPLACEMENT=eddie
+```
+
+In our setup, EDDIE will state its public URL to be "localhost:8080".
+If AIIDA was to call that URL inside its container, it would simply make a request to itself.
+This setting will direct all requests to handshake URLs with the "localhost" origin to the specified origin.
+In this case, the hostname of the EDDIE container `eddie`.
+
 ### Keycloak
 
-We also need to adapt our Keycloak realm to allow the AIIDA UI at http://localhost:8081 as origin and for redirects.
+To reuse our existing Keycloak instance,
+we need to adapt our Keycloak realm to allow the AIIDA UI at http://localhost:8081 as origin and for redirects.
 This can be done via the [Keycloak UI](http://localhost:8888/admin/master/console/#/tutorial-realm/clients) or by adjusting our configuration.
 
 ```json [keycloak.json]
@@ -247,7 +259,7 @@ The status will be inferred on page load once the first message has been generat
 
 In EDDIE, AIIDA instances are connected by an AIIDA region connector.
 
-The AIIDA region connector also requires an MQTT broker, 
+The AIIDA region connector also requires an MQTT broker,
 so we will add one to our root `docker-compose.yml`.
 
 ```yaml [docker-compose.yml]
@@ -317,17 +329,9 @@ REGION_CONNECTOR_AIIDA_MQTT_PASSWORD=eddie
 
 A full list of configuration options and instructions for production deployments are found in the [EDDIE framework documentation](https://architecture.eddie.energy/framework/1-running/region-connectors/region-connector-aiida.html).
 
-A common pitfall in local setups is that AIIDA will not be able to reach EDDIE via localhost.
-
-```yaml [aiida/docker-compose.yml]
-services:
-  aiida:
-    extra_hosts:
-      - "localhost:host-gateway"
-```
-
 To request near real-time data in the EDDIE framework you also need a new type of data need.
 There are two types of data needs for AIIDA:
+
 - `aiida-outbound` specifies that AIIDA should _send_ data produced by the customer.
 - `aiida-inbound` specifies that AIIDA will _receive_ data from your EDDIE instance.
 
@@ -361,6 +365,7 @@ In our `data-needs.json` we will add a new block for the AIIDA data need:
 ```
 
 Let's take a look at its fields.
+
 - `duration` can again be an absolute duration ending with a specific date or a relative duration.
 - `transmissionSchedule` is a [Cron expression](https://docs.oracle.com/cd/E12058_01/doc/doc.1014/e12030/cron_expressions.htm) of 6 fields.
   Positions represent second, minute, hour, day of month, month, and day of week.
@@ -378,7 +383,7 @@ Let's take a look at its fields.
 
 Comprehensive documentation for AIIDA data needs can be found [here](https://architecture.eddie.energy/aiida/1-running/data-need.html).
 
-With AIIDA, its region connector, and the data need set up, 
+With AIIDA, its region connector, and the data need set up,
 we can finally try a full flow of requesting and receiving AIIDA near real-time data!
 
 ## Step 5 — Requesting and receiving near real-time data
