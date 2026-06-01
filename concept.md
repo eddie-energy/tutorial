@@ -162,8 +162,6 @@ Activities:
 
 Outcome: Familiarity with underlying heterogeneity
 
-Commented [GS1]: unclear what metadata is meant
-
 ### Day 8 — Future & Incremental Data Handling (effort: 6h)
 
 Goal: Handle ongoing delivery patterns
@@ -177,7 +175,7 @@ Activities:
 
 Outcome: Robust temporal data handling
 
-Commented [RM2]: No way to consistently test → explain that and how it works
+Comment: No way to consistently test → explain that and how it works
 
 ### Day 9 — Observability & Logging (effort: 8h)
 
@@ -189,9 +187,7 @@ Activities:
     - Configure tracing
     - Configure structured logging
 - Correlate connection ID across services
-
-Commented [RM3]: Maybe delegate to Florian for he implemented the initial version
-Commented [RM4]: Example to view error in OpenTelemetry
+- Showcase how to track an issue
 
 Outcome: Observable integration pipeline
 
@@ -304,11 +300,9 @@ Activities:
 - Model domain events
 - Implement event listeners
 - Compare orchestration vs choreography
-- Introduce saga pattern concepts
+- Introduce [saga](https://microservices.io/patterns/data/saga.html) pattern concepts
 
 Outcome: Event-driven design competence
-
-Commented [RM7]: https://microservices.io/patterns/data/saga.html
 
 ### Day 18 — Multi-Tenant Considerations (effort: ??)
 
@@ -333,10 +327,9 @@ Activities:
 - Least privilege consent modelling
 - Secure outbound connectors
 - Secrets management patterns
+- [Management port](https://github.com/eddie-energy/eddie/issues/2468) vs OAuth for REST
 
 Outcome: Secure deployment mindset
-
-Commented [RM8]: Secure management port vs OAuth over individual connectors
 
 ### Day 20 — Packaging & Deployment (effort: 6h)
 
@@ -359,7 +352,7 @@ Activities:
 
 - Architecture recap
 - Identify extension scenarios
-- Brainstorm domain features for pet-shop analogue
+- Brainstorm domain features for pet-shop analogy
 - Define next steps for production adoption
 
 Outcome: Confidence and forward roadmap
