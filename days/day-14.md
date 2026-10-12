@@ -140,7 +140,7 @@ With its dependencies set up we now define AIIDA container.
 
 ```yaml [aiida/docker-compose.yml]
   aiida:
-    image: ghcr.io/eddie-energy/aiida:latest
+    image: ghcr.io/eddie-energy/aiida:v1.51.4
     depends_on:
       aiida-db:
         condition: service_healthy

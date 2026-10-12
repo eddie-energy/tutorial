@@ -46,7 +46,7 @@ services:
       retries: 5
 
   eddie:
-    image: ghcr.io/eddie-energy/eddie:latest
+    image: ghcr.io/eddie-energy/eddie:v1.51.4
     ports:
       - "8080:8080"
       - "9090:9090"
