@@ -46,7 +46,7 @@ services:
       retries: 5
 
   aiida:
-    image: ghcr.io/eddie-energy/aiida:latest
+    image: ghcr.io/eddie-energy/aiida:v1.51.4
     depends_on:
       aiida-db:
         condition: service_healthy
